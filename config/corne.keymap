@@ -104,15 +104,7 @@
             >;
         };
 
-        adjustment_layer {
-            display-name = "left";
-
-            // -----------------------------------------------------------------------------------------
-            // |      |     |     |     |     |     |   |     |     |     |     |     |      |
-            // |      |     |     |     |     |     |   |     |     |     |     |     |      |
-            // |      |     |     |     |     |     |   |     |     |     |     |     |      |
-            //                    |     |     |     |   |     |     |     |
-
+        adjust_layer {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
@@ -120,7 +112,7 @@
                         &trans  &trans  &trans    &trans  &trans  &trans
             >;
 
-            label = "adjustment";
+            label = "adjust";
         };
 
         function_layer {
@@ -165,6 +157,15 @@
             >;
 
             label = "extra";
+        };
+    };
+
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+
+        lower+upper {
+            if-layers = <1 2>;
+            then-layer = <3>;
         };
     };
 };
