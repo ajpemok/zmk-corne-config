@@ -19,7 +19,9 @@
 #
 ---
 include:
-  - board: mikoto@7.2.0
+  - board: mikoto@7.2.0//zmk
     shield: corne_left nice_view_adapter nice_view
-  - board: mikoto@7.2.0
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: mikoto@7.2.0//zmk
     shield: corne_right nice_view_adapter nice_view
+# for Zephyr 4.1 it needs to be 7.2.0//zmk
