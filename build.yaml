@@ -20,9 +20,9 @@
 ---
 include:
   - board: mikoto@7.2.0//zmk
-    shield: corne_left nice_view_adapter nice_epaper
+    shield: corne_left nice_view_adapter nice_view_elemental
     cmake-args: -DCONFIG_ZMK_STUDIO=y
     artifact-name: corne_left-mikoto-zmk
   - board: mikoto@7.2.0//zmk
-    shield: corne_right nice_view_adapter nice_epaper
+    shield: corne_right nice_view_adapter nice_view_elemental
     artifact-name: corne_right-mikoto-zmk
