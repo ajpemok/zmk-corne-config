@@ -109,10 +109,10 @@
             //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
 
             bindings = <
-&mm_escape_grave  &kp Q                          &kp W                          &kp E                          &kp R                            &kp T        &kp Y    &kp U                              &kp I                        &kp O                            &kp P          &mm_backspace_del
-&kp TAB           &home_row_mod_left LEFT_GUI A  &home_row_mod_left LEFT_ALT S  &home_row_mod_left LCTRL D     &home_row_mod_left LEFT_SHIFT F  &kp G        &kp H    &home_row_mod_right RIGHT_SHIFT J  &home_row_mod_right RCTRL K  &home_row_mod_right RIGHT_ALT L  &kp SEMICOLON  &kp SQT
-&td_hyper_meh     &kp Z                          &kp X                          &kp C                          &kp V                            &kp B        &kp N    &kp M                              &kp COMMA                    &kp DOT                          &kp SLASH      &custom_layer_tap 7 KP_ENTER
-                                                                                &custom_layer_tap 1 BACKSPACE  &td_hyper_meh                    &kp SPACE    &kp RET  &td_meh_hyper                      &custom_layer_tap 2 DEL
+&mm_escape_grave                &kp Q                          &kp W                          &kp E                          &kp R                            &kp T        &kp Y    &kp U                              &kp I                        &kp O                            &kp P          &mm_backspace_del
+&kp TAB                         &home_row_mod_left LEFT_GUI A  &home_row_mod_left LEFT_ALT S  &home_row_mod_left LCTRL D     &home_row_mod_left LEFT_SHIFT F  &kp G        &kp H    &home_row_mod_right RIGHT_SHIFT J  &home_row_mod_right RCTRL K  &home_row_mod_right RIGHT_ALT L  &kp SEMICOLON  &kp SQT
+&custom_layer_tap 7 UNDERSCORE  &kp Z                          &kp X                          &kp C                          &kp V                            &kp B        &kp N    &kp M                              &kp COMMA                    &kp DOT                          &kp SLASH      &custom_layer_tap 7 KP_ENTER
+                                                                                              &custom_layer_tap 1 BACKSPACE  &td_hyper_meh                    &kp SPACE    &kp RET  &td_meh_hyper                      &custom_layer_tap 2 DEL
             >;
         };
 
@@ -196,8 +196,8 @@
 
         extra_layer {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &kp N7           &kp N8        &kp N9        &kp KP_MINUS
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &kp N4           &kp N5        &kp N6        &kp KP_PLUS
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &kp N7           &kp N8        &kp N9        &mm_backspace_del
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &kp N4           &kp N5        &kp N6        &trans
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &kp NUMBER_1     &kp NUMBER_2  &kp NUMBER_3  &trans
                         &trans  &trans  &trans    &trans  &trans  &kp KP_NUMBER_0
             >;
