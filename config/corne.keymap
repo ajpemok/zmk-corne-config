@@ -17,9 +17,9 @@
             bindings = <&kp>, <&kp>;
 
             #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            quick-tap-ms = <175>;
-            require-prior-idle-ms = <125>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <125>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             hold-trigger-key-positions = <6 18 30 40 39 41 35 23 11 10 18 19 20 21 22 30 31 32 33 34 7 8 9>;
             hold-trigger-on-release;
@@ -31,9 +31,9 @@
             bindings = <&kp>, <&kp>;
 
             #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            quick-tap-ms = <175>;
-            require-prior-idle-ms = <125>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <125>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             hold-trigger-on-release;
             hold-trigger-key-positions = <0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29 36 37 38>;
@@ -46,8 +46,8 @@
 
             #binding-cells = <2>;
             flavor = "balanced";
-            tapping-term-ms = <200>;
-            quick-tap-ms = <175>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <125>;
         };
 
         mm_escape_grave: mm_escape_grave {
@@ -85,6 +85,64 @@
 
             tapping-term-ms = <175>;
         };
+
+        custom_hold_tap_retro: custom_hold_tap_retro {
+            compatible = "zmk,behavior-hold-tap";
+            label = "CUSTOM_HOLD_TAP_RETRO";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <150>;
+            retro-tap;
+            quick-tap-ms = <125>;
+            flavor = "tap-preferred";
+        };
+
+        custom_hold_tap: custom_hold_tap {
+            compatible = "zmk,behavior-hold-tap";
+            label = "CUSTOM_HOLD_TAP";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <125>;
+            flavor = "tap-preferred";
+        };
+
+        td_caps_word_lock: td_caps_word_lock {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TD_CAPS_WORD_LOCK";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&caps_word>, <&kp CAPSLOCK>;
+        };
+
+        mm_round_bracket_left_exclaim: mm_round_bracket_left_exclaim {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MM_ROUND_BRACKET_LEFT_EXCLAIM";
+            bindings = <&kp LEFT_PARENTHESIS>, <&kp EXCLAMATION>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        mm_round_bracket_right_exclaim: mm_round_bracket_right_exclaim {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MM_ROUND_BRACKET_RIGHT_EXCLAIM";
+            bindings = <&kp RIGHT_PARENTHESIS>, <&kp EXCLAMATION>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        mm_: mm_ {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MM_";
+            bindings = <&kp RIGHT_PARENTHESIS>, <&kp EXCLAMATION>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
     };
 
     combos {
@@ -109,14 +167,14 @@
             //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
 
             bindings = <
-&mm_escape_grave                &kp Q                          &kp W                          &kp E                          &kp R                            &kp T        &kp Y    &kp U                              &kp I                        &kp O                            &kp P          &mm_backspace_del
-&kp TAB                         &home_row_mod_left LEFT_GUI A  &home_row_mod_left LEFT_ALT S  &home_row_mod_left LCTRL D     &home_row_mod_left LEFT_SHIFT F  &kp G        &kp H    &home_row_mod_right RIGHT_SHIFT J  &home_row_mod_right RCTRL K  &home_row_mod_right RIGHT_ALT L  &kp SEMICOLON  &kp SQT
-&custom_layer_tap 7 UNDERSCORE  &kp Z                          &kp X                          &kp C                          &kp V                            &kp B        &kp N    &kp M                              &kp COMMA                    &kp DOT                          &kp SLASH      &custom_layer_tap 7 KP_ENTER
-                                                                                              &custom_layer_tap 1 BACKSPACE  &td_hyper_meh                    &kp SPACE    &kp RET  &td_meh_hyper                      &custom_layer_tap 2 DEL
+&mm_escape_grave         &kp Q                          &kp W                          &kp E                       &kp R                            &kp T                        &kp Y                      &kp U                              &kp I                        &kp O                            &kp P          &kp MINUS
+&custom_layer_tap 7 TAB  &home_row_mod_left LEFT_GUI A  &home_row_mod_left LEFT_ALT S  &home_row_mod_left LCTRL D  &home_row_mod_left LEFT_SHIFT F  &kp G                        &kp H                      &home_row_mod_right RIGHT_SHIFT J  &home_row_mod_right RCTRL K  &home_row_mod_right RIGHT_ALT L  &kp SEMICOLON  &kp SQT
+&mt LEFT_SHIFT F24       &kp Z                          &kp X                          &kp C                       &kp V                            &kp B                        &kp N                      &kp M                              &kp COMMA                    &kp DOT                          &kp SLASH      &kp ENTER
+                                                                                       &td_meh_hyper               &td_hyper_meh                    &custom_layer_tap 7 SPACE    &custom_layer_tap 7 SPACE  &custom_layer_tap 1 BACKSPACE      &custom_layer_tap 2 DELETE
             >;
         };
 
-        lower_layer {
+        lower_move {
             display-name = "lower";
 
             // -----------------------------------------------------------------------------------------
@@ -126,11 +184,13 @@
             //                    | GUI |     | SPC |   | ENT |     | ALT |
 
             bindings = <
-&kp GRAVE  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5    &kp N6    &kp N7    &kp N8  &kp N9     &kp N0  &mm_backspace_del
-&trans     &trans  &trans  &trans  &trans  &trans    &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans
-&trans     &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
-                           &trans  &trans  &trans    &trans    &trans    &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans          &trans          &trans  &trans     &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &kp LEFT_ARROW  &kp DOWN_ARROW  &kp UP  &kp RIGHT  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans          &trans          &trans  &trans     &trans  &trans
+                        &trans  &trans  &trans    &trans          &trans          &trans
             >;
+
+            label = "lower_move";
         };
 
         upper_layer {
@@ -143,7 +203,7 @@
             //                    | GUI |     | SPC |   | ENT |     | ALT |
 
             bindings = <
-&kp GRAVE  &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS  &kp ASTRK  &kp LPAR  &kp RPAR  &mm_backspace_del
+&kp GRAVE  &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS  &kp ASTRK  &kp LPAR  &kp RPAR  &trans
 &trans     &trans    &trans  &trans    &trans    &trans       &trans     &trans    &trans     &trans    &trans    &trans
 &trans     &trans    &trans  &trans    &trans    &trans       &trans     &trans    &trans     &trans    &trans    &trans
                              &trans    &trans    &trans       &trans     &trans    &trans
@@ -152,10 +212,10 @@
 
         adjust_layer {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &sl 4
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-                        &trans  &trans  &trans    &trans  &trans  &trans
+&kp F1              &kp F2  &kp F3  &kp F4  &kp F5  &kp F6    &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
+&td_caps_word_lock  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans   &trans   &trans
+&trans              &trans  &trans  &trans  &trans  &sl 4     &trans  &trans  &trans  &trans   &trans   &trans
+                                    &trans  &trans  &trans    &trans  &trans  &trans
             >;
 
             label = "adjust";
@@ -194,15 +254,27 @@
             label = "gaming";
         };
 
-        extra_layer {
+        number_layer {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &kp N7           &kp N8        &kp N9        &mm_backspace_del
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &kp N4           &kp N5        &kp N6        &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &kp NUMBER_1     &kp NUMBER_2  &kp NUMBER_3  &trans
-                        &trans  &trans  &trans    &trans  &trans  &kp KP_NUMBER_0
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N7  &kp N8  &kp N9                    &kp ASTERISK  &kp LEFT_BRACKET                &kp RIGHT_BRACKET
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N4  &kp N5  &kp N6                    &kp MINUS     &mm_round_bracket_left_exclaim  &mm_round_bracket_right_exclaim
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N1  &kp N2  &kp N3                    &kp PLUS      &kp SLASH                       &kp BACKSLASH
+                        &trans  &trans  &trans    &trans  &kp N0  &mt RIGHT_SHIFT KP_EQUAL
             >;
 
-            label = "extra";
+            label = "number_layer";
+        };
+
+        temporary_layer {
+            display-name = "temporary";
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
+                        &trans  &trans  &trans    &trans    &trans    &trans
+            >;
+
+            label = "temporary";
         };
     };
 
