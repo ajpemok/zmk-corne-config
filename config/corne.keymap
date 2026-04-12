@@ -17,6 +17,13 @@
 // ║  used across hold-taps and mod-morphs    ║
 // ╚══════════════════════════════════════════╝
 
+// ╔══════════════════════════════════════════╗
+// ║  Hold-Tap Configuration Guide            ║
+// ╠══════════════════════════════════════════╣
+// ║  detailed explanation of all timing      ║
+// ║  and resolution variables                ║
+// ╚══════════════════════════════════════════╝
+
 // ┌──────────────────────────────────────────┐
 // │  This section defines exactly how ZMK    │
 // │  resolves dual-function behaviours.      │
@@ -24,36 +31,40 @@
 // │  Timers (Milliseconds):                  │
 // │  - tapping-term-ms: The primary timer.   │
 // │    Releasing before this sends a tap.    │
-// │    Holding beyond this sends a hold.     │
 // │  - quick-tap-ms: The double-tap window.  │
-// │    If tapped again within this time, it  │
-// │    repeats the tap instead of holding.   │
+// │    Tapping again within this repeats     │
+// │    the tap instead of holding.           │
 // │  - require-prior-idle-ms: The typing     │
-// │    buffer. A hold is only allowed if     │
-// │    no other keys were pressed recently.  │
+// │    buffer to prevent accidental holds.   │
 // │                                          │
 // │  Flavours (Resolution Strategy):         │
 // │  - hold-preferred: The instant another   │
 // │    key is pressed, it becomes a hold.    │
 // │  - tap-preferred: Prioritises typing.    │
-// │    It remains a tap if released before   │
-// │    the term, even if another key fires.  │
+// │    It stays a tap if released early.     │
 // │  - balanced: The home-row sweet spot.    │
 // │    It becomes a hold if another key is   │
 // │    pressed AND released while held.      │
+// │  - tap-unless-interrupted: Resolves as   │
+// │    a tap unless another key is pressed   │
+// │    and released during the hold window.  │
 // │                                          │
-// │  Modifiers and Conditions:               │
+// │  Advanced Modifiers:                     │
+// │  - hold-while-undecided: Sends the hold  │
+// │    keycode to the OS immediately while   │
+// │    ZMK decides if it is a tap or hold.   │
+// │  - hold-while-undecided-linger: Keeps    │
+// │    the hold active briefly to ensure     │
+// │    the OS registers the modifier.        │
+// │  - retro-tap: Sends the tap action if    │
+// │    held past the term but released       │
+// │    without pressing any other keys.      │
+// │  - hold-trigger-key-positions: Cross     │
+// │    hand blocking to restrict modifiers   │
+// │    to opposite-hand key presses.         │
 // │  - hold-trigger-on-release: Pauses the   │
 // │    flavour logic until you let go of     │
-// │    the key, preventing accidental mods   │
-// │    during fast, sloppy typing rolls.     │
-// │  - hold-trigger-key-positions: Cross     │
-// │    hand blocking. The modifier only      │
-// │    works if the next key pressed is on   │
-// │    the opposite side of the keyboard.    │
-// │  - retro-tap: If you hold the key past   │
-// │    the term but never press another      │
-// │    key, it sends the tap action anyway.  │
+// │    the key.                              │
 // └──────────────────────────────────────────┘
 
 / {
@@ -68,7 +79,8 @@
         // ║  hold-trigger-key-positions: right hand  ║
         // ╚══════════════════════════════════════════╝
 
-        mt_home_row_mod_left: home_row_mod_left {
+        // › use case: primary alpha keys on the left hand. blocks same-hand modifier activation.
+        mt_home_row_mod_left: mod_tap_home_row_mod_left {
             compatible = "zmk,behavior-hold-tap";
             label = "HOME_ROW_MOD_LEFT";
             bindings = <&kp>, <&kp>;
@@ -91,7 +103,8 @@
         // ║  hold-trigger-key-positions: left hand   ║
         // ╚══════════════════════════════════════════╝
 
-        mt_home_row_mod_right: home_row_mod_right {
+        // › use case: primary alpha keys on the right hand. faster timings for right-hand dominance.
+        mt_home_row_mod_right: mod_tap_home_row_mod_right {
             compatible = "zmk,behavior-hold-tap";
             label = "HOME_ROW_MOD_RIGHT";
             bindings = <&kp>, <&kp>;
@@ -112,7 +125,8 @@
         // ║  flavor: balanced                        ║
         // ╚══════════════════════════════════════════╝
 
-        custom_layer_tap: custom_layer_tap {
+        // › use case: thumb cluster keys to quickly toggle navigation or symbol layers without delay.
+        cht_layer_tap: custom_layer_tap {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_LAYER_TAP";
             bindings = <&mo>, <&kp>;
@@ -129,33 +143,37 @@
         // ║  navigation utility                      ║
         // ╚══════════════════════════════════════════╝
 
-        mm_escape_grave: mm_escape_grave {
+        // › use case: tap for Escape, Shift+tap for Grave/Tilde.
+        mm_escape_grave: mod_morph_escape_grave {
             compatible = "zmk,behavior-mod-morph";
-            label = "MM_ESCAPE_GRAVE";
+            label = "MOD_MORPH_ESCAPE_GRAVE";
             bindings = <&kp ESC>, <&kp GRAVE>;
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        mm_backspace_del: mm_backspace_del {
+        // › use case: tap for Backspace, Shift+tap for Delete.
+        mm_backspace_del: mod_morph_backspace_del {
             compatible = "zmk,behavior-mod-morph";
-            label = "MM_BACKSPACE_DEL";
+            label = "MOD_MORPH_BACKSPACE_DEL";
             bindings = <&kp BACKSPACE>, <&kp DEL>;
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        mm_round_bracket_left_exclaim: mm_round_bracket_left_exclaim {
+        // › use case: tap for Left Parenthesis, Shift+tap for Exclamation mark.
+        mm_round_bracket_left_exclaim: mod_morph_round_bracket_left_exclaim {
             compatible = "zmk,behavior-mod-morph";
-            label = "MM_ROUND_BRACKET_LEFT_EXCLAIM";
+            label = "MOD_MORPH_ROUND_BRACKET_LEFT_EXCLAIM";
             bindings = <&kp LEFT_PARENTHESIS>, <&kp EXCLAMATION>;
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        mm_round_bracket_right_exclaim: mm_round_bracket_right_exclaim {
+        // › use case: tap for Right Parenthesis, Shift+tap for Exclamation mark.
+        mm_round_bracket_right_exclaim: mod_morph_round_bracket_right_exclaim {
             compatible = "zmk,behavior-mod-morph";
-            label = "MM_ROUND_BRACKET_RIGHT_EXCLAIM";
+            label = "MOD_MORPH_ROUND_BRACKET_RIGHT_EXCLAIM";
             bindings = <&kp RIGHT_PARENTHESIS>, <&kp EXCLAMATION>;
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
@@ -168,25 +186,28 @@
         // ║  tapping-term-ms: 200ms (caps lock)      ║
         // ╚══════════════════════════════════════════╝
 
-        td_hyper_meh: td_hyper_meh {
+        // › use case: single tap sends Hyper (Cmd+Ctrl+Alt+Shift), double tap sends Meh.
+        td_hyper_meh: tap_dance_hyper_meh {
             compatible = "zmk,behavior-tap-dance";
-            label = "TD_HYPER_MEH";
+            label = "TAP_DANCE_HYPER_MEH";
             #binding-cells = <0>;
             bindings = <&kp LA(LC(LG(LSHFT)))>, <&kp LA(LC(LSHFT))>;
             tapping-term-ms = <175>;
         };
 
-        td_meh_hyper: td_meh_hyper {
+        // › use case: single tap sends Meh (Ctrl+Alt+Shift), double tap sends Hyper.
+        td_meh_hyper: tap_dance_meh_hyper {
             compatible = "zmk,behavior-tap-dance";
-            label = "TD_MEH_HYPER";
+            label = "TAP_DANCE_MEH_HYPER";
             #binding-cells = <0>;
             bindings = <&kp LA(LC(LSHFT))>, <&kp LA(LC(LG(LSHFT)))>;
             tapping-term-ms = <175>;
         };
 
-        td_caps_word_lock: td_caps_word_lock {
+        // › use case: single tap toggles Caps Word (auto-disables on space), double tap locks Caps Lock.
+        td_caps_word_lock: tap_dance_caps_word_lock {
             compatible = "zmk,behavior-tap-dance";
-            label = "TD_CAPS_WORD_LOCK";
+            label = "TAP_DANCE_CAPS_WORD_LOCK";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
             bindings = <&caps_word>, <&kp CAPSLOCK>;
@@ -200,7 +221,8 @@
         // ║  flavor: tap-preferred                   ║
         // ╚══════════════════════════════════════════╝
 
-        custom_hold_tap: custom_hold_tap {
+        // › use case: fast typing standard, prioritises clean typing over accidental modifier holds.
+        cht_hold_tap: custom_hold_tap {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_HOLD_TAP";
             bindings = <&kp>, <&kp>;
@@ -219,7 +241,8 @@
         // ║  retro-tap: enabled                      ║
         // ╚══════════════════════════════════════════╝
 
-        custom_hold_tap_retro: custom_hold_tap_retro {
+        // › use case: ideal for keys you might accidentally linger on but still expect a tap output.
+        cht_retro: custom_hold_tap_retro {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_HOLD_TAP_RETRO";
             bindings = <&kp>, <&kp>;
@@ -245,10 +268,10 @@
         main {
             label = "main";
             bindings = <
-&mm_escape_grave         &kp Q                               &kp W                               &kp E                            &kp R                            &kp T          &kp Y          &kp U                                &kp I                            &kp O                               &kp P                                       &kp MINUS
-&custom_layer_tap 2 TAB  &mt_home_row_mod_left LEFT_GUI A    &mt_home_row_mod_left LEFT_ALT S    &mt_home_row_mod_left LCTRL D    &mt_home_row_mod_left LSHFT F    &kp G          &kp H          &mt_home_row_mod_right RIGHT_SHIFT J &mt_home_row_mod_right RCTRL K   &mt_home_row_mod_right RIGHT_ALT L  &mt_home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
-&mt LSHFT ENTER          &kp Z                               &kp X                               &kp C                            &kp V                            &kp B          &kp N          &kp M                                &kp COMMA                        &kp DOT                             &kp SLASH                                   &kp ENTER
-                                                                                                                                  &td_meh_hyper                    &td_hyper_meh  &custom_layer_tap 2 SPACE            &custom_layer_tap 2 SPACE        &custom_layer_tap 1 BACKSPACE       &custom_layer_tap 2 DELETE
+&mm_escape_grave      &kp Q                               &kp W                               &kp E                            &kp R                            &kp T          &kp Y          &kp U                                &kp I                            &kp O                               &kp P                                       &kp MINUS
+&cht_layer_tap 2 TAB  &mt_home_row_mod_left LEFT_GUI A    &mt_home_row_mod_left LEFT_ALT S    &mt_home_row_mod_left LCTRL D    &mt_home_row_mod_left LSHFT F    &kp G          &kp H          &mt_home_row_mod_right RIGHT_SHIFT J &mt_home_row_mod_right RCTRL K   &mt_home_row_mod_right RIGHT_ALT L  &mt_home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
+&mt LSHFT ENTER       &kp Z                               &kp X                               &kp C                            &kp V                            &kp B          &kp N          &kp M                                &kp COMMA                        &kp DOT                             &kp SLASH                                   &kp ENTER
+                                                                                                                               &td_meh_hyper                    &td_hyper_meh  &cht_layer_tap 2 SPACE               &cht_layer_tap 2 SPACE           &cht_layer_tap 1 BACKSPACE          &cht_layer_tap 2 DELETE
             >;
         };
 
