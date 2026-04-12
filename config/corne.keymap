@@ -116,7 +116,7 @@
             quick-tap-ms = <150>;
         };
 
-        // › use case: deliberate layer shift for settings or dangerous macros
+        // › use case: highly deliberate layer shift for settings or dangerous macros
         clt_deliberate: layer_tap_delib {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_DELIBERATE";
