@@ -1,21 +1,80 @@
-/*
- * Copyright (c) 2020 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
- */
-
-#include <behaviors.dtsi>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/outputs.h>
-
 / {
+    /* --- MACROS --- */
+    macros {
+        // Placeholder for F-key logic or other complex sequences
+        macro_f_shifted: macro_f_shifted {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&none>; 
+            label = "MACRO_F_SHIFTED";
+        };
+    };
+
     behaviors {
+        /* --- 1. MOD-MORPHS (Context-Aware Keys) --- */
+        mm_escape_grave: mm_escape_grave {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MM_ESCAPE_GRAVE";
+            bindings = <&kp ESC>, <&kp GRAVE>;
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        mm_backspace_del: mm_backspace_del {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MM_BACKSPACE_DEL";
+            bindings = <&kp BACKSPACE>, <&kp DEL>;
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        mm_round_bracket_left_exclaim: mm_round_bracket_left_exclaim {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MM_ROUND_BRACKET_LEFT_EXCLAIM";
+            bindings = <&kp LEFT_PARENTHESIS>, <&kp EXCLAMATION>;
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        mm_round_bracket_right_exclaim: mm_round_bracket_right_exclaim {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MM_ROUND_BRACKET_RIGHT_EXCLAIM";
+            bindings = <&kp RIGHT_PARENTHESIS>, <&kp EXCLAMATION>;
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        /* --- 2. TAP-DANCES (Multi-Tap Triggers) --- */
+        td_hyper_meh: td_hyper_meh {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TD_HYPER_MEH";
+            #binding-cells = <0>;
+            bindings = <&kp LA(LC(LG(LEFT_SHIFT)))>, <&kp LA(LC(LEFT_SHIFT))>;
+            tapping-term-ms = <175>;
+        };
+
+        td_meh_hyper: td_meh_hyper {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TD_MEH_HYPER";
+            #binding-cells = <0>;
+            bindings = <&kp LA(LC(LEFT_SHIFT))>, <&kp LA(LC(LG(LEFT_SHIFT)))>;
+            tapping-term-ms = <175>;
+        };
+
+        td_caps_word_lock: td_caps_word_lock {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TD_CAPS_WORD_LOCK";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&caps_word>, <&kp CAPSLOCK>;
+        };
+
+        /* --- 3. HOLD-TAPS (Modifiers & Layer Shifts) --- */
+        // Home Row Mods
         home_row_mod_left: home_row_mod_left {
             compatible = "zmk,behavior-hold-tap";
             label = "HOME_ROW_MOD_LEFT";
             bindings = <&kp>, <&kp>;
-
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             quick-tap-ms = <125>;
@@ -29,7 +88,6 @@
             compatible = "zmk,behavior-hold-tap";
             label = "HOME_ROW_MOD_RIGHT";
             bindings = <&kp>, <&kp>;
-
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             quick-tap-ms = <125>;
@@ -39,215 +97,36 @@
             hold-trigger-key-positions = <0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29 36 37 38>;
         };
 
+        // Layer & Utility Hold-Taps
         custom_layer_tap: custom_layer_tap {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_LAYER_TAP";
             bindings = <&mo>, <&kp>;
-
             #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <150>;
-            quick-tap-ms = <125>;
-        };
-
-        mm_escape_grave: mm_escape_grave {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MM_ESCAPE_GRAVE";
-            bindings = <&kp ESC>, <&kp GRAVE>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        td_hyper_meh: td_hyper_meh {
-            compatible = "zmk,behavior-tap-dance";
-            label = "TD_HYPER_MEH";
-            #binding-cells = <0>;
-            bindings = <&kp LA(LC(LG(LEFT_SHIFT)))>, <&kp LA(LC(LEFT_SHIFT))>;
-
-            tapping-term-ms = <175>;
-        };
-
-        mm_backspace_del: mm_backspace_del {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MM_BACKSPACE_DEL";
-            bindings = <&kp BACKSPACE>, <&kp DEL>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        td_meh_hyper: td_meh_hyper {
-            compatible = "zmk,behavior-tap-dance";
-            label = "TD_MEH_HYPER";
-            #binding-cells = <0>;
-            bindings = <&kp LA(LC(LEFT_SHIFT))>, <&kp LA(LC(LG(LEFT_SHIFT)))>;
-
-            tapping-term-ms = <175>;
-        };
-
-        custom_hold_tap_retro: custom_hold_tap_retro {
-            compatible = "zmk,behavior-hold-tap";
-            label = "CUSTOM_HOLD_TAP_RETRO";
-            bindings = <&kp>, <&kp>;
-
-            #binding-cells = <2>;
-            tapping-term-ms = <150>;
-            retro-tap;
-            quick-tap-ms = <125>;
-            flavor = "tap-preferred";
+            quick-tap-ms = <200>; // Increased for backspace spamming
         };
 
         custom_hold_tap: custom_hold_tap {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_HOLD_TAP";
             bindings = <&kp>, <&kp>;
-
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             quick-tap-ms = <125>;
             flavor = "tap-preferred";
         };
 
-        td_caps_word_lock: td_caps_word_lock {
-            compatible = "zmk,behavior-tap-dance";
-            label = "TD_CAPS_WORD_LOCK";
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&caps_word>, <&kp CAPSLOCK>;
-        };
-
-        mm_round_bracket_left_exclaim: mm_round_bracket_left_exclaim {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MM_ROUND_BRACKET_LEFT_EXCLAIM";
-            bindings = <&kp LEFT_PARENTHESIS>, <&kp EXCLAMATION>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        mm_round_bracket_right_exclaim: mm_round_bracket_right_exclaim {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MM_ROUND_BRACKET_RIGHT_EXCLAIM";
-            bindings = <&kp RIGHT_PARENTHESIS>, <&kp EXCLAMATION>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-    };
-
-    combos {
-        compatible = "zmk,combos";
-
-        combo_jk_backspace {
-            bindings = <&kp DEL>;
-            key-positions = <19 20>;
-        };
-    };
-
-    keymap {
-        compatible = "zmk,keymap";
-
-        main {
-            display-name = "main";
-
-            // -----------------------------------------------------------------------------------------
-            // |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BSPC |
-            // | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
-            // | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | ESC  |
-            //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
-
-            bindings = <
-&mm_escape_grave         &kp Q                          &kp W                          &kp E                       &kp R                            &kp T                        &kp Y                      &kp U                              &kp I                        &kp O                            &kp P                                    &kp MINUS
-&custom_layer_tap 2 TAB  &home_row_mod_left LEFT_GUI A  &home_row_mod_left LEFT_ALT S  &home_row_mod_left LCTRL D  &home_row_mod_left LEFT_SHIFT F  &kp G                        &kp H                      &home_row_mod_right RIGHT_SHIFT J  &home_row_mod_right RCTRL K  &home_row_mod_right RIGHT_ALT L  &home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
-&mt LEFT_SHIFT ENTER     &kp Z                          &kp X                          &kp C                       &kp V                            &kp B                        &kp N                      &kp M                              &kp COMMA                    &kp DOT                          &kp SLASH                                &kp ENTER
-                                                                                       &td_meh_hyper               &td_hyper_meh                    &custom_layer_tap 2 SPACE    &custom_layer_tap 2 SPACE  &custom_layer_tap 1 BACKSPACE      &custom_layer_tap 2 DELETE
-            >;
-
-            label = "main";
-        };
-
-        movement {
-            display-name = "upper";
-
-            // -----------------------------------------------------------------------------------------
-            // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  * |  (  |  )  | BSPC |
-            // | CTRL |     |     |     |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `   |
-            // | SHFT |     |     |     |     |     |   |  _  |  +  |  {  |  }  | "|" |  ~   |
-            //                    | GUI |     | SPC |   | ENT |     | ALT |
-
-            bindings = <
-&kp GRAVE  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
-&trans     &trans  &trans  &trans  &trans  &trans    &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans
-&trans     &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
-                           &trans  &trans  &trans    &trans    &trans    &trans
-            >;
-
-            label = "movement";
-        };
-
-        number {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &kp N7  &kp N8  &kp N9                    &kp ASTERISK  &kp LEFT_BRACKET                &kp RIGHT_BRACKET
-&trans  &trans  &trans  &trans  &trans  &trans    &kp N4  &kp N5  &kp N6                    &kp MINUS     &mm_round_bracket_left_exclaim  &mm_round_bracket_right_exclaim
-&trans  &trans  &trans  &trans  &trans  &trans    &kp N1  &kp N2  &kp N3                    &kp PLUS      &kp SLASH                       &kp BACKSLASH
-                        &trans  &trans  &trans    &trans  &kp N0  &mt RIGHT_SHIFT KP_EQUAL
-            >;
-
-            label = "number";
-        };
-
-        remote_layer {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-                        &trans  &trans  &trans    &trans  &trans  &trans
-            >;
-
-            label = "remote";
-        };
-
-        gaming_layer {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-                        &trans  &trans  &trans    &trans  &trans  &trans
-            >;
-
-            label = "gaming";
-        };
-
-        transition {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &sl 0     &trans  &trans  &trans  &trans  &trans  &trans
-                        &trans  &trans  &trans    &trans  &trans  &trans
-            >;
-
-            label = "transition";
-        };
-
-        io {
-            bindings = <
-&trans  &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4    &out OUT_TOG  &trans  &trans  &trans  &trans  &bt BT_CLR
-&trans  &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4     &trans        &trans  &trans  &trans  &trans  &trans
-&trans  &trans         &trans         &trans         &trans         &trans           &trans        &trans  &trans  &trans  &trans  &trans
-                                      &trans         &trans         &trans           &trans        &trans  &trans
-            >;
-
-            label = "io";
-        };
-    };
-
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
-
-        transition {
-            if-layers = <2>;
-            then-layer = <5>;
+        custom_hold_tap_retro: custom_hold_tap_retro {
+            compatible = "zmk,behavior-hold-tap";
+            label = "CUSTOM_HOLD_TAP_RETRO";
+            bindings = <&kp>, <&kp>;
+            #binding-cells = <2>;
+            tapping-term-ms = <150>;
+            retro-tap;
+            quick-tap-ms = <125>;
+            flavor = "tap-preferred";
         };
     };
 };
