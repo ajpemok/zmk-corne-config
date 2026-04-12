@@ -134,25 +134,6 @@
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
-
-        mm_zero_cart: mm_zero_cart {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MM_ZERO_CART";
-            bindings = <&kp KP_NUMBER_0>, <&kp CARET>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        custom_sticky_layer_ign_mod_5s: custom_sticky_layer_ign_mod_5s {
-            compatible = "zmk,behavior-sticky-key";
-            label = "CUSTOM_STICKY_LAYER_IGN_MOD_5S";
-            bindings = <&mo>;
-            #binding-cells = <1>;
-            release-after-ms = <5000>;
-            quick-release;
-            ignore-modifiers;
-        };
     };
 
     combos {
@@ -167,7 +148,7 @@
     keymap {
         compatible = "zmk,keymap";
 
-        main_layer {
+        main {
             display-name = "main";
 
             // -----------------------------------------------------------------------------------------
@@ -178,32 +159,15 @@
 
             bindings = <
 &mm_escape_grave         &kp Q                          &kp W                          &kp E                       &kp R                            &kp T                        &kp Y                      &kp U                              &kp I                        &kp O                            &kp P                                    &kp MINUS
-&custom_layer_tap 7 TAB  &home_row_mod_left LEFT_GUI A  &home_row_mod_left LEFT_ALT S  &home_row_mod_left LCTRL D  &home_row_mod_left LEFT_SHIFT F  &kp G                        &kp H                      &home_row_mod_right RIGHT_SHIFT J  &home_row_mod_right RCTRL K  &home_row_mod_right RIGHT_ALT L  &home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
-&mt LEFT_SHIFT F24       &kp Z                          &kp X                          &kp C                       &kp V                            &kp B                        &kp N                      &kp M                              &kp COMMA                    &kp DOT                          &kp SLASH                                &kp ENTER
-                                                                                       &td_meh_hyper               &td_hyper_meh                    &custom_layer_tap 7 SPACE    &custom_layer_tap 7 SPACE  &custom_layer_tap 1 BACKSPACE      &custom_layer_tap 2 DELETE
-            >;
-        };
-
-        lower_move {
-            display-name = "lower";
-
-            // -----------------------------------------------------------------------------------------
-            // |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BSPC |
-            // | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
-            // | SHFT |     |     |     |     |     |   |     |     |     |     |     |      |
-            //                    | GUI |     | SPC |   | ENT |     | ALT |
-
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans          &trans          &trans  &trans     &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &kp LEFT_ARROW  &kp DOWN_ARROW  &kp UP  &kp RIGHT  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans          &trans          &trans  &trans     &trans  &trans
-                        &trans  &trans  &trans    &trans          &trans          &trans
+&custom_layer_tap 2 TAB  &home_row_mod_left LEFT_GUI A  &home_row_mod_left LEFT_ALT S  &home_row_mod_left LCTRL D  &home_row_mod_left LEFT_SHIFT F  &kp G                        &kp H                      &home_row_mod_right RIGHT_SHIFT J  &home_row_mod_right RCTRL K  &home_row_mod_right RIGHT_ALT L  &home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
+&mt LEFT_SHIFT ENTER     &kp Z                          &kp X                          &kp C                       &kp V                            &kp B                        &kp N                      &kp M                              &kp COMMA                    &kp DOT                          &kp SLASH                                &kp ENTER
+                                                                                       &td_meh_hyper               &td_hyper_meh                    &custom_layer_tap 2 SPACE    &custom_layer_tap 2 SPACE  &custom_layer_tap 1 BACKSPACE      &custom_layer_tap 2 DELETE
             >;
 
-            label = "lower_move";
+            label = "main";
         };
 
-        upper_layer {
+        movement {
             display-name = "upper";
 
             // -----------------------------------------------------------------------------------------
@@ -213,33 +177,24 @@
             //                    | GUI |     | SPC |   | ENT |     | ALT |
 
             bindings = <
-&kp F1   &kp F2   &kp F3   &kp F4   &kp F5   &kp F6     &kp F7   &kp F8   &kp F9   &kp F10  &kp F11  &kp F12
-&kp F13  &kp F14  &kp F15  &kp F16  &kp F17  &kp F18    &kp F19  &kp F20  &kp F21  &kp F22  &kp F23  &kp F24
-&trans   &trans   &trans   &trans   &trans   &trans     &trans   &trans   &trans   &trans   &trans   &trans
-                           &trans   &trans   &trans     &trans   &trans   &trans
+&kp GRAVE  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
+&trans     &trans  &trans  &trans  &trans  &trans    &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans
+&trans     &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
+                           &trans  &trans  &trans    &trans    &trans    &trans
             >;
+
+            label = "movement";
         };
 
-        adjust_layer {
+        number {
             bindings = <
-&kp F1              &kp F2  &kp F3  &kp F4  &kp F5  &kp F6                               &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
-&td_caps_word_lock  &trans  &trans  &trans  &trans  &trans                               &trans  &trans  &trans  &trans   &trans   &trans
-&trans              &trans  &trans  &trans  &trans  &custom_sticky_layer_ign_mod_5s 4    &trans  &trans  &trans  &trans   &trans   &trans
-                                    &trans  &trans  &trans                               &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N7  &kp N8  &kp N9                    &kp ASTERISK  &kp LEFT_BRACKET                &kp RIGHT_BRACKET
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N4  &kp N5  &kp N6                    &kp MINUS     &mm_round_bracket_left_exclaim  &mm_round_bracket_right_exclaim
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N1  &kp N2  &kp N3                    &kp PLUS      &kp SLASH                       &kp BACKSLASH
+                        &trans  &trans  &trans    &trans  &kp N0  &mt RIGHT_SHIFT KP_EQUAL
             >;
 
-            label = "adjust";
-        };
-
-        function_layer {
-            bindings = <
-&trans  &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4    &out OUT_TOG  &trans  &trans  &trans  &trans  &bt BT_CLR
-&trans  &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4     &trans        &trans  &trans  &trans  &trans  &trans
-&trans  &trans         &trans         &trans         &trans         &trans           &trans        &trans  &trans  &trans  &trans  &trans
-                                      &trans         &trans         &trans           &trans        &trans  &trans
-            >;
-
-            label = "function";
+            label = "number";
         };
 
         remote_layer {
@@ -264,36 +219,35 @@
             label = "gaming";
         };
 
-        numbers_layer {
+        transition {
             bindings = <
-&kp GRAVE  &trans  &trans  &trans  &trans  &trans    &kp N7  &kp N8  &kp N9                    &kp ASTERISK  &kp LEFT_BRACKET                &kp RIGHT_BRACKET
-&trans     &trans  &trans  &trans  &trans  &trans    &kp N4  &kp N5  &kp N6                    &kp MINUS     &mm_round_bracket_left_exclaim  &mm_round_bracket_right_exclaim
-&trans     &trans  &trans  &trans  &trans  &trans    &kp N1  &kp N2  &kp N3                    &kp PLUS      &kp SLASH                       &kp BACKSLASH
-                           &trans  &trans  &trans    &trans  &kp N0  &mt RIGHT_SHIFT KP_EQUAL
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &sl 0     &trans  &trans  &trans  &trans  &trans  &trans
+                        &trans  &trans  &trans    &trans  &trans  &trans
             >;
 
-            label = "numbers";
+            label = "transition";
         };
 
-        temporary_layer {
-            display-name = "temporary";
+        io {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
-                        &trans  &trans  &trans    &trans    &trans    &trans
+&trans  &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4    &out OUT_TOG  &trans  &trans  &trans  &trans  &bt BT_CLR
+&trans  &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4     &trans        &trans  &trans  &trans  &trans  &trans
+&trans  &trans         &trans         &trans         &trans         &trans           &trans        &trans  &trans  &trans  &trans  &trans
+                                      &trans         &trans         &trans           &trans        &trans  &trans
             >;
 
-            label = "temporary";
+            label = "io";
         };
     };
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
 
-        lower+upper {
-            if-layers = <1 2>;
-            then-layer = <3>;
+        transition {
+            if-layers = <2>;
+            then-layer = <5>;
         };
     };
 };
