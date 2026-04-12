@@ -274,7 +274,7 @@
         mm_r_paren: morph_r_paren {
             compatible = "zmk,behavior-mod-morph";
             label = "MORPH_R_PAREN";
-            bindings = <&kp RIGHT_PARENTHESIS>, <&kp EXCLAMATION>;
+            bindings = <&kp RIGHT_PARENTHESIS>, <&kp PIPE>;
 
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
