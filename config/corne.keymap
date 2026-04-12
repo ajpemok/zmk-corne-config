@@ -11,6 +11,13 @@
 #include <dt-bindings/zmk/outputs.h>
 
 // ╔══════════════════════════════════════════╗
+// ║  Configuration Variables Reference       ║
+// ╠══════════════════════════════════════════╣
+// ║  defines the timing and toggle knobs     ║
+// ║  used across hold-taps and mod-morphs    ║
+// ╚══════════════════════════════════════════╝
+
+// ╔══════════════════════════════════════════╗
 // ║  Hold-Tap Configuration Guide            ║
 // ╠══════════════════════════════════════════╣
 // ║  detailed explanation of all timing      ║
@@ -22,19 +29,42 @@
 // │  resolves dual-function behaviours.      │
 // │                                          │
 // │  Timers (Milliseconds):                  │
-// │  - tapping-term-ms: The primary timer    │
-// │  - quick-tap-ms: Double-tap window       │
-// │  - require-prior-idle-ms: Typing buffer  │
+// │  - tapping-term-ms: The primary timer.   │
+// │    Releasing before this sends a tap.    │
+// │  - quick-tap-ms: The double-tap window.  │
+// │    Tapping again within this repeats     │
+// │    the tap instead of holding.           │
+// │  - require-prior-idle-ms: The typing     │
+// │    buffer to prevent accidental holds.   │
 // │                                          │
 // │  Flavours (Resolution Strategy):         │
-// │  - balanced: Home-row sweet spot         │
-// │  - tap-preferred: Prioritises typing     │
-// │  - tap-unless-interrupted: Speed typing  │
+// │  - hold-preferred: The instant another   │
+// │    key is pressed, it becomes a hold.    │
+// │  - tap-preferred: Prioritises typing.    │
+// │    It stays a tap if released early.     │
+// │  - balanced: The home-row sweet spot.    │
+// │    It becomes a hold if another key is   │
+// │    pressed AND released while held.      │
+// │  - tap-unless-interrupted: Resolves as   │
+// │    a tap unless another key is pressed   │
+// │    and released during the hold window.  │
 // │                                          │
 // │  Advanced Modifiers:                     │
-// │  - hold-while-undecided: Instant hold    │
-// │  - retro-tap: Tap on release if no mod   │
-// │  - hold-trigger-on-release: Roll safety  │
+// │  - hold-while-undecided: Sends the hold  │
+// │    keycode to the OS immediately while   │
+// │    ZMK decides if it is a tap or hold.   │
+// │  - hold-while-undecided-linger: Keeps    │
+// │    the hold active briefly to ensure     │
+// │    the OS registers the modifier.        │
+// │  - retro-tap: Sends the tap action if    │
+// │    held past the term but released       │
+// │    without pressing any other keys.      │
+// │  - hold-trigger-key-positions: Cross     │
+// │    hand blocking to restrict modifiers   │
+// │    to opposite-hand key presses.         │
+// │  - hold-trigger-on-release: Pauses the   │
+// │    flavour logic until you let go of     │
+// │    the key.                              │
 // └──────────────────────────────────────────┘
 
 / {
@@ -182,7 +212,7 @@
             tapping-term-ms = <175>;
         };
 
-        // › use case: single tap toggles Caps Word, double tap locks Caps Lock
+        // › use case: single tap toggles Caps Word (auto-disables on non-alphanumeric keys like space or enter), double tap locks Caps Lock
         td_caps_word: dance_caps_word {
             compatible = "zmk,behavior-tap-dance";
             label = "TD_CAPS_WORD";
@@ -250,7 +280,7 @@
             label = "main";
             bindings = <
 &mm_esc_grave         &kp Q                               &kp W                               &kp E                            &kp R                            &kp T          &kp Y          &kp U                                &kp I                            &kp O                               &kp P                                       &kp MINUS
-&kp TAB               &mt_home_row_mod_left LEFT_GUI A    &mt_home_row_mod_left LEFT_ALT S    &mt_home_row_mod_left LCTRL D    &mt_home_row_mod_left LSHFT F    &kp G          &kp H          &mt_home_row_mod_right RIGHT_SHIFT J &mt_home_row_mod_right RCTRL K   &mt_home_row_mod_right RIGHT_ALT L  &mt_home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
+&clt_tap_pref 2 TAB   &mt_home_row_mod_left LEFT_GUI A    &mt_home_row_mod_left LEFT_ALT S    &mt_home_row_mod_left LCTRL D    &mt_home_row_mod_left LSHFT F    &kp G          &kp H          &mt_home_row_mod_right RIGHT_SHIFT J &mt_home_row_mod_right RCTRL K   &mt_home_row_mod_right RIGHT_ALT L  &mt_home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
 &mt LSHFT ENTER       &kp Z                               &kp X                               &kp C                            &kp V                            &kp B          &kp N          &kp M                                &kp COMMA                        &kp DOT                             &kp SLASH                                   &kp ENTER
                                                                                                                                &td_meh_hyper                    &td_hyper_meh  &clt_tap_pref 2 SPACE                &clt_tap_pref 2 SPACE            &clt_balanced 1 BACKSPACE           &clt_balanced 2 DELETE
             >;
