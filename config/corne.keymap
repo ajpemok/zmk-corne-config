@@ -135,10 +135,10 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        mm_: mm_ {
+        mm_zero_cart: mm_zero_cart {
             compatible = "zmk,behavior-mod-morph";
-            label = "MM_";
-            bindings = <&kp RIGHT_PARENTHESIS>, <&kp EXCLAMATION>;
+            label = "MM_ZERO_CART";
+            bindings = <&kp KP_NUMBER_0>, <&kp CARET>;
 
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
@@ -203,10 +203,10 @@
             //                    | GUI |     | SPC |   | ENT |     | ALT |
 
             bindings = <
-&kp GRAVE  &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS  &kp ASTRK  &kp LPAR  &kp RPAR  &trans
-&trans     &trans    &trans  &trans    &trans    &trans       &trans     &trans    &trans     &trans    &trans    &trans
-&trans     &trans    &trans  &trans    &trans    &trans       &trans     &trans    &trans     &trans    &trans    &trans
-                             &trans    &trans    &trans       &trans     &trans    &trans
+&kp F1   &kp F2   &kp F3   &kp F4   &kp F5   &kp F6     &kp F7   &kp F8   &kp F9   &kp F10  &kp F11  &kp F12
+&kp F13  &kp F14  &kp F15  &kp F16  &kp F17  &kp F18    &kp F19  &kp F20  &kp F21  &kp F22  &kp F23  &kp F24
+&trans   &trans   &trans   &trans   &trans   &trans     &trans   &trans   &trans   &trans   &trans   &trans
+                           &trans   &trans   &trans     &trans   &trans   &trans
             >;
         };
 
@@ -254,15 +254,15 @@
             label = "gaming";
         };
 
-        number_layer {
+        numbers_layer {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &kp N7  &kp N8  &kp N9                    &kp ASTERISK  &kp LEFT_BRACKET                &kp RIGHT_BRACKET
-&trans  &trans  &trans  &trans  &trans  &trans    &kp N4  &kp N5  &kp N6                    &kp MINUS     &mm_round_bracket_left_exclaim  &mm_round_bracket_right_exclaim
-&trans  &trans  &trans  &trans  &trans  &trans    &kp N1  &kp N2  &kp N3                    &kp PLUS      &kp SLASH                       &kp BACKSLASH
-                        &trans  &trans  &trans    &trans  &kp N0  &mt RIGHT_SHIFT KP_EQUAL
+&kp GRAVE  &trans  &trans  &trans  &trans  &trans    &kp N7  &kp N8  &kp N9                    &kp ASTERISK  &kp LEFT_BRACKET                &kp RIGHT_BRACKET
+&trans     &trans  &trans  &trans  &trans  &trans    &kp N4  &kp N5  &kp N6                    &kp MINUS     &mm_round_bracket_left_exclaim  &mm_round_bracket_right_exclaim
+&trans     &trans  &trans  &trans  &trans  &trans    &kp N1  &kp N2  &kp N3                    &kp PLUS      &kp SLASH                       &kp BACKSLASH
+                           &trans  &trans  &trans    &trans  &kp N0  &mt RIGHT_SHIFT KP_EQUAL
             >;
 
-            label = "number_layer";
+            label = "numbers";
         };
 
         temporary_layer {
