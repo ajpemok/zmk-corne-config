@@ -11,22 +11,26 @@
 
 / {
     /* --- MACROS --- */
+
     macros {
         // Placeholder for F-key logic or other complex sequences
+
         macro_f_shifted: macro_f_shifted {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&none>; 
+            bindings = <&none>;
             label = "MACRO_F_SHIFTED";
         };
     };
 
     behaviors {
         /* --- 1. MOD-MORPHS (Context-Aware Keys) --- */
+
         mm_escape_grave: mm_escape_grave {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_ESCAPE_GRAVE";
             bindings = <&kp ESC>, <&kp GRAVE>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
@@ -35,6 +39,7 @@
             compatible = "zmk,behavior-mod-morph";
             label = "MM_BACKSPACE_DEL";
             bindings = <&kp BACKSPACE>, <&kp DEL>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
@@ -43,6 +48,7 @@
             compatible = "zmk,behavior-mod-morph";
             label = "MM_ROUND_BRACKET_LEFT_EXCLAIM";
             bindings = <&kp LEFT_PARENTHESIS>, <&kp EXCLAMATION>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
@@ -51,16 +57,19 @@
             compatible = "zmk,behavior-mod-morph";
             label = "MM_ROUND_BRACKET_RIGHT_EXCLAIM";
             bindings = <&kp RIGHT_PARENTHESIS>, <&kp EXCLAMATION>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         /* --- 2. TAP-DANCES (Multi-Tap Triggers) --- */
+
         td_hyper_meh: td_hyper_meh {
             compatible = "zmk,behavior-tap-dance";
             label = "TD_HYPER_MEH";
             #binding-cells = <0>;
             bindings = <&kp LA(LC(LG(LEFT_SHIFT)))>, <&kp LA(LC(LEFT_SHIFT))>;
+
             tapping-term-ms = <175>;
         };
 
@@ -69,6 +78,7 @@
             label = "TD_MEH_HYPER";
             #binding-cells = <0>;
             bindings = <&kp LA(LC(LEFT_SHIFT))>, <&kp LA(LC(LG(LEFT_SHIFT)))>;
+
             tapping-term-ms = <175>;
         };
 
@@ -82,10 +92,12 @@
 
         /* --- 3. HOLD-TAPS (Modifiers & Layer Shifts) --- */
         // Home Row Mods
+
         home_row_mod_left: home_row_mod_left {
             compatible = "zmk,behavior-hold-tap";
             label = "HOME_ROW_MOD_LEFT";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             quick-tap-ms = <125>;
@@ -99,6 +111,7 @@
             compatible = "zmk,behavior-hold-tap";
             label = "HOME_ROW_MOD_RIGHT";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             quick-tap-ms = <125>;
@@ -109,10 +122,12 @@
         };
 
         // Layer & Utility Hold-Taps
+
         custom_layer_tap: custom_layer_tap {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_LAYER_TAP";
             bindings = <&mo>, <&kp>;
+
             #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <150>;
@@ -123,6 +138,7 @@
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_HOLD_TAP";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             quick-tap-ms = <125>;
@@ -133,6 +149,7 @@
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_HOLD_TAP_RETRO";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             retro-tap;
@@ -251,7 +268,7 @@
         compatible = "zmk,conditional-layers";
 
         transition {
-            if-layers = <2>;
+            if-layers = <1 2>;
             then-layer = <5>;
         };
     };
