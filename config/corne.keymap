@@ -16,7 +16,6 @@
 // ║  detailed explanation of all timing      ║
 // ║  and resolution variables                ║
 // ╚══════════════════════════════════════════╝
-
 // ┌──────────────────────────────────────────┐
 // │  This section defines exactly how ZMK    │
 // │  resolves dual-function behaviours.      │
@@ -68,12 +67,13 @@
         // ║  hand-blocked modifiers for the          ║
         // ║  primary alpha keys                      ║
         // ╚══════════════════════════════════════════╝
-
         // › use case: primary alpha keys on the left hand, blocks same-hand modifier activation
+
         mt_home_row_mod_left: home_row_mod_left {
             compatible = "zmk,behavior-hold-tap";
             label = "HOME_ROW_MOD_LEFT";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <175>;
             quick-tap-ms = <150>;
@@ -84,10 +84,12 @@
         };
 
         // › use case: primary alpha keys on the right hand, faster timings for right-hand dominance
+
         mt_home_row_mod_right: home_row_mod_right {
             compatible = "zmk,behavior-hold-tap";
             label = "HOME_ROW_MOD_RIGHT";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             quick-tap-ms = <125>;
@@ -103,12 +105,13 @@
         // ║  variants for momentary layer shifts     ║
         // ║  using <&mo>, <&kp> bindings             ║
         // ╚══════════════════════════════════════════╝
-
         // › use case: fast typing standard, prioritises clean typing over accidental layer shifts
+
         clt_tap_pref: custom_layer_tap_tap_preferred {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_LAYER_TAP_TAP_PREFERRED";
             bindings = <&mo>, <&kp>;
+
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <150>;
@@ -116,10 +119,12 @@
         };
 
         // › use case: standard balanced thumb layer toggle for smooth rolling motions
+
         clt_balanced: custom_layer_tap_balanced {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_LAYER_TAP_BALANCED";
             bindings = <&mo>, <&kp>;
+
             #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
@@ -127,10 +132,12 @@
         };
 
         // › use case: highly deliberate layer shift for settings or dangerous macros to prevent misfires
+
         clt_deliberate: custom_layer_tap_deliberate {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_LAYER_TAP_DELIBERATE";
             bindings = <&mo>, <&kp>;
+
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <300>;
@@ -143,12 +150,13 @@
         // ║  variants for custom modifiers           ║
         // ║  using <&kp>, <&kp> bindings             ║
         // ╚══════════════════════════════════════════╝
-
         // › use case: standard thumb modifier requiring stability during fast rolling motions
+
         cmt_balanced: custom_mod_tap_balanced {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_MOD_TAP_BALANCED";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <150>;
@@ -157,10 +165,12 @@
         };
 
         // › use case: aggressive speed typists needing to prevent accidental mods during overlapping rolls
+
         cmt_tui: custom_mod_tap_tap_unless_interrupted {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_MOD_TAP_TUI";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <150>;
@@ -169,10 +179,12 @@
         };
 
         // › use case: ideal for keys you might accidentally linger on but still expect a tap output
+
         cmt_retro: custom_mod_tap_retro {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_MOD_TAP_RETRO";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             retro-tap;
@@ -186,26 +198,30 @@
         // ║  multi-tap triggers for complex          ║
         // ║  modifiers and locks                     ║
         // ╚══════════════════════════════════════════╝
-
         // › use case: single tap sends Hyper (Cmd+Ctrl+Alt+Shift), double tap sends Meh
+
         td_hyper_meh: tap_dance_hyper_meh {
             compatible = "zmk,behavior-tap-dance";
             label = "TAP_DANCE_HYPER_MEH";
             #binding-cells = <0>;
             bindings = <&kp LA(LC(LG(LSHFT)))>, <&kp LA(LC(LSHFT))>;
+
             tapping-term-ms = <175>;
         };
 
         // › use case: single tap sends Meh (Ctrl+Alt+Shift), double tap sends Hyper
+
         td_meh_hyper: tap_dance_meh_hyper {
             compatible = "zmk,behavior-tap-dance";
             label = "TAP_DANCE_MEH_HYPER";
             #binding-cells = <0>;
             bindings = <&kp LA(LC(LSHFT))>, <&kp LA(LC(LG(LSHFT)))>;
+
             tapping-term-ms = <175>;
         };
 
         // › use case: single tap toggles Caps Word (auto-disables on non-alphanumeric keys like space or enter), double tap locks Caps Lock
+
         td_caps_word_lock: tap_dance_caps_word_lock {
             compatible = "zmk,behavior-tap-dance";
             label = "TAP_DANCE_CAPS_WORD_LOCK";
@@ -220,39 +236,46 @@
         // ║  context-aware keys for symbols and      ║
         // ║  navigation utility                      ║
         // ╚══════════════════════════════════════════╝
-
         // › use case: tap for Escape, Shift+tap for Grave/Tilde
+
         mm_escape_grave: mod_morph_escape_grave {
             compatible = "zmk,behavior-mod-morph";
             label = "MOD_MORPH_ESCAPE_GRAVE";
             bindings = <&kp ESC>, <&kp GRAVE>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         // › use case: tap for Backspace, Shift+tap for Delete
+
         mm_backspace_del: mod_morph_backspace_del {
             compatible = "zmk,behavior-mod-morph";
             label = "MOD_MORPH_BACKSPACE_DEL";
             bindings = <&kp BACKSPACE>, <&kp DEL>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         // › use case: tap for Left Parenthesis, Shift+tap for Exclamation mark
+
         mm_round_bracket_left_exclaim: mod_morph_round_bracket_left_exclaim {
             compatible = "zmk,behavior-mod-morph";
             label = "MOD_MORPH_ROUND_BRACKET_LEFT_EXCLAIM";
             bindings = <&kp LEFT_PARENTHESIS>, <&kp EXCLAMATION>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         // › use case: tap for Right Parenthesis, Shift+tap for Exclamation mark
+
         mm_round_bracket_right_exclaim: mod_morph_round_bracket_right_exclaim {
             compatible = "zmk,behavior-mod-morph";
             label = "MOD_MORPH_ROUND_BRACKET_RIGHT_EXCLAIM";
             bindings = <&kp RIGHT_PARENTHESIS>, <&kp EXCLAMATION>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
@@ -260,6 +283,7 @@
 
     combos {
         compatible = "zmk,combos";
+
         combo_jk_backspace {
             bindings = <&kp DEL>;
             key-positions = <19 20>;
@@ -272,20 +296,20 @@
         main {
             label = "main";
             bindings = <
-&mm_escape_grave      &kp Q                               &kp W                               &kp E                            &kp R                            &kp T          &kp Y          &kp U                                &kp I                            &kp O                               &kp P                                       &kp MINUS
-&clt_tap_pref 2 TAB   &mt_home_row_mod_left LEFT_GUI A    &mt_home_row_mod_left LEFT_ALT S    &mt_home_row_mod_left LCTRL D    &mt_home_row_mod_left LSHFT F    &kp G          &kp H          &mt_home_row_mod_right RIGHT_SHIFT J &mt_home_row_mod_right RCTRL K   &mt_home_row_mod_right RIGHT_ALT L  &mt_home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
-&mt LSHFT ENTER       &kp Z                               &kp X                               &kp C                            &kp V                            &kp B          &kp N          &kp M                                &kp COMMA                        &kp DOT                             &kp SLASH                                   &kp ENTER
-                                                                                                                               &td_meh_hyper                    &td_hyper_meh  &clt_tap_pref 2 SPACE                &clt_tap_pref 2 SPACE            &clt_tap_pref 1 BACKSPACE           &clt_tap_pref 2 DELETE
+&mm_escape_grave     &kp Q                             &kp W                             &kp E                          &kp R                          &kp T                    &kp Y      &kp U                                 &kp I                           &kp O                               &kp P                                       &kp MINUS
+&kp TAB              &mt_home_row_mod_left LEFT_GUI A  &mt_home_row_mod_left LEFT_ALT S  &mt_home_row_mod_left LCTRL D  &mt_home_row_mod_left LSHFT F  &kp G                    &kp H      &mt_home_row_mod_right RIGHT_SHIFT J  &mt_home_row_mod_right RCTRL K  &mt_home_row_mod_right RIGHT_ALT L  &mt_home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
+&clt_balanced 1 F24  &kp Z                             &kp X                             &kp C                          &kp V                          &kp B                    &kp N      &kp M                                 &kp COMMA                       &kp DOT                             &kp SLASH                                   &kp ENTER
+                                                                                         &td_meh_hyper                  &td_hyper_meh                  &clt_tap_pref 2 SPACE    &kp ENTER  &clt_balanced 1 BACKSPACE             &clt_balanced 2 DELETE
             >;
         };
 
         movement {
             label = "movement";
             bindings = <
-&kp GRAVE  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
-&trans     &trans  &trans  &trans  &trans  &trans    &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans
-&trans     &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
-                           &trans  &trans  &trans    &trans    &trans    &trans
+&kp GRAVE  &trans  &trans  &trans  &trans  &trans    &kp HOME  &kp PAGE_DOWN  &kp PAGE_UP  &kp END    &trans  &trans
+&trans     &trans  &trans  &trans  &trans  &trans    &kp LEFT  &kp DOWN       &kp UP       &kp RIGHT  &trans  &trans
+&trans     &trans  &trans  &trans  &trans  &trans    &trans    &trans         &trans       &trans     &trans  &trans
+                           &trans  &trans  &trans    &trans    &trans         &trans
             >;
         };
 
@@ -302,9 +326,9 @@
         transition {
             label = "transition";
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &sl 4     &trans  &trans  &trans  &trans  &trans  &trans
+&kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &kp F6    &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
+&kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &kp F6    &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
+&trans  &trans  &trans  &trans  &trans  &sl 4     &trans  &trans  &trans  &trans   &trans   &trans
                         &trans  &trans  &trans    &trans  &trans  &trans
             >;
         };
@@ -322,6 +346,7 @@
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
+
         tri_layer {
             if-layers = <1 2>;
             then-layer = <3>;
