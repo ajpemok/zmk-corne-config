@@ -16,14 +16,12 @@
 // ║  defines the timing and toggle knobs     ║
 // ║  used across hold-taps and mod-morphs    ║
 // ╚══════════════════════════════════════════╝
-
 // ╔══════════════════════════════════════════╗
 // ║  Hold-Tap Configuration Guide            ║
 // ╠══════════════════════════════════════════╣
 // ║  detailed explanation of all timing      ║
 // ║  and resolution variables                ║
 // ╚══════════════════════════════════════════╝
-
 // ┌──────────────────────────────────────────┐
 // │  This section defines exactly how ZMK    │
 // │  resolves dual-function behaviours.      │
@@ -58,12 +56,13 @@
         // ║  hand-blocked modifiers for the          ║
         // ║  primary alpha keys                      ║
         // ╚══════════════════════════════════════════╝
-
         // › use case: primary alpha keys on the left hand, blocks same-hand activation
+
         mt_home_row_mod_left: home_row_mod_left {
             compatible = "zmk,behavior-hold-tap";
             label = "HRM_LEFT";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <175>;
             quick-tap-ms = <150>;
@@ -74,10 +73,12 @@
         };
 
         // › use case: primary alpha keys on the right hand, faster for dominance
+
         mt_home_row_mod_right: home_row_mod_right {
             compatible = "zmk,behavior-hold-tap";
             label = "HRM_RIGHT";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             quick-tap-ms = <125>;
@@ -93,12 +94,13 @@
         // ║  variants for momentary layer shifts     ║
         // ║  using <&mo>, <&kp> bindings             ║
         // ╚══════════════════════════════════════════╝
-
         // › use case: fast typing standard, prioritises clean typing
+
         clt_tap_pref: layer_tap_pref {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_TAP_PREF";
             bindings = <&mo>, <&kp>;
+
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <150>;
@@ -106,10 +108,12 @@
         };
 
         // › use case: standard balanced thumb layer toggle for smooth rolls
+
         clt_balanced: layer_tap_balanced {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_BALANCED";
             bindings = <&mo>, <&kp>;
+
             #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
@@ -117,10 +121,12 @@
         };
 
         // › use case: highly deliberate layer shift for settings or dangerous macros
+
         clt_deliberate: layer_tap_delib {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_DELIBERATE";
             bindings = <&mo>, <&kp>;
+
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <300>;
@@ -133,12 +139,13 @@
         // ║  variants for custom modifiers           ║
         // ║  using <&kp>, <&kp> bindings             ║
         // ╚══════════════════════════════════════════╝
-
         // › use case: standard thumb modifier requiring stability during fast rolls
+
         cmt_balanced: mod_tap_balanced {
             compatible = "zmk,behavior-hold-tap";
             label = "CMT_BALANCED";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <150>;
@@ -147,10 +154,12 @@
         };
 
         // › use case: prevent accidental mods during overlapping rolls
+
         cmt_tui: mod_tap_tui {
             compatible = "zmk,behavior-hold-tap";
             label = "CMT_TUI";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <150>;
@@ -159,10 +168,12 @@
         };
 
         // › use case: ideal for keys you might accidentally linger on but expect a tap
+
         cmt_retro: mod_tap_retro {
             compatible = "zmk,behavior-hold-tap";
             label = "CMT_RETRO";
             bindings = <&kp>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             retro-tap;
@@ -176,26 +187,30 @@
         // ║  multi-tap triggers for complex          ║
         // ║  modifiers and locks                     ║
         // ╚══════════════════════════════════════════╝
-
         // › use case: single tap sends Hyper, double tap sends Meh
+
         td_hyper_meh: dance_hyper_meh {
             compatible = "zmk,behavior-tap-dance";
             label = "TD_HYPER_MEH";
             #binding-cells = <0>;
             bindings = <&kp LA(LC(LG(LSHFT)))>, <&kp LA(LC(LSHFT))>;
+
             tapping-term-ms = <175>;
         };
 
         // › use case: single tap sends Meh, double tap sends Hyper
+
         td_meh_hyper: dance_meh_hyper {
             compatible = "zmk,behavior-tap-dance";
             label = "TD_MEH_HYPER";
             #binding-cells = <0>;
             bindings = <&kp LA(LC(LSHFT))>, <&kp LA(LC(LG(LSHFT)))>;
+
             tapping-term-ms = <175>;
         };
 
         // › use case: single tap toggles Caps Word, double tap locks Caps Lock
+
         td_caps_word: dance_caps_word {
             compatible = "zmk,behavior-tap-dance";
             label = "TD_CAPS_WORD";
@@ -210,30 +225,35 @@
         // ║  context-aware keys for symbols and      ║
         // ║  navigation utility                      ║
         // ╚══════════════════════════════════════════╝
-
         // › use case: tap for Escape, Shift+tap for Grave/Tilde
+
         mm_esc_grave: morph_esc_grave {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_ESC_GRAVE";
             bindings = <&kp ESC>, <&kp GRAVE>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         // › use case: tap for Left Parenthesis, Shift+tap for Exclamation mark
+
         mm_l_paren: morph_l_paren {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_L_PAREN";
             bindings = <&kp LEFT_PARENTHESIS>, <&kp EXCLAMATION>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         // › use case: tap for Right Parenthesis, Shift+tap for Pipe
+
         mm_r_paren: morph_r_paren {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_R_PAREN";
             bindings = <&kp RIGHT_PARENTHESIS>, <&kp PIPE>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
@@ -241,9 +261,11 @@
 
     combos {
         compatible = "zmk,combos";
+
         combo_jk_backspace {
             bindings = <&kp DEL>;
             key-positions = <19 20>;
+            layers = <0 2>;
         };
     };
 
@@ -273,9 +295,9 @@
         number {
             label = "number";
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &kp N7  &kp N8  &kp N9              &kp ASTRK  &kp LBKT        &kp RBKT
-&trans  &trans  &trans  &trans  &trans  &trans    &kp N4  &kp N5  &kp N6              &kp MINUS  &mm_l_paren     &mm_r_paren
-&trans  &trans  &trans  &trans  &trans  &trans    &kp N1  &kp N2  &kp N3              &kp PLUS   &kp FSLH        &kp BSLH
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N7  &kp N8  &kp N9              &kp ASTRK  &kp LBKT     &kp RBKT
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N4  &kp N5  &kp N6              &kp MINUS  &mm_l_paren  &mm_r_paren
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N1  &kp N2  &kp N3              &kp PLUS   &kp FSLH     &kp BSLH
                         &trans  &trans  &trans    &trans  &kp N0  &mt RSHFT KP_EQUAL
             >;
         };
@@ -303,6 +325,7 @@
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
+
         tri_layer {
             if-layers = <1 2>;
             then-layer = <3>;
