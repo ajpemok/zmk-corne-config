@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/outputs.h>
+
 / {
     /* --- MACROS --- */
     macros {
@@ -127,6 +138,121 @@
             retro-tap;
             quick-tap-ms = <125>;
             flavor = "tap-preferred";
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        combo_jk_backspace {
+            bindings = <&kp DEL>;
+            key-positions = <19 20>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        main {
+            display-name = "main";
+
+            // -----------------------------------------------------------------------------------------
+            // |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BSPC |
+            // | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
+            // | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | ESC  |
+            //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
+
+            bindings = <
+&mm_escape_grave         &kp Q                          &kp W                          &kp E                       &kp R                            &kp T                        &kp Y                      &kp U                              &kp I                        &kp O                            &kp P                                    &kp MINUS
+&custom_layer_tap 2 TAB  &home_row_mod_left LEFT_GUI A  &home_row_mod_left LEFT_ALT S  &home_row_mod_left LCTRL D  &home_row_mod_left LEFT_SHIFT F  &kp G                        &kp H                      &home_row_mod_right RIGHT_SHIFT J  &home_row_mod_right RCTRL K  &home_row_mod_right RIGHT_ALT L  &home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
+&mt LEFT_SHIFT ENTER     &kp Z                          &kp X                          &kp C                       &kp V                            &kp B                        &kp N                      &kp M                              &kp COMMA                    &kp DOT                          &kp SLASH                                &kp ENTER
+                                                                                       &td_meh_hyper               &td_hyper_meh                    &custom_layer_tap 2 SPACE    &custom_layer_tap 2 SPACE  &custom_layer_tap 1 BACKSPACE      &custom_layer_tap 2 DELETE
+            >;
+
+            label = "main";
+        };
+
+        movement {
+            display-name = "movement";
+
+            // -----------------------------------------------------------------------------------------
+            // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  * |  (  |  )  | BSPC |
+            // | CTRL |     |     |     |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `   |
+            // | SHFT |     |     |     |     |     |   |  _  |  +  |  {  |  }  | "|" |  ~   |
+            //                    | GUI |     | SPC |   | ENT |     | ALT |
+
+            bindings = <
+&kp GRAVE  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
+&trans     &trans  &trans  &trans  &trans  &trans    &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans
+&trans     &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans  &trans     &trans  &trans
+                           &trans  &trans  &trans    &trans    &trans    &trans
+            >;
+
+            label = "movement";
+        };
+
+        number {
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N7  &kp N8  &kp N9                    &kp ASTERISK  &kp LEFT_BRACKET                &kp RIGHT_BRACKET
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N4  &kp N5  &kp N6                    &kp MINUS     &mm_round_bracket_left_exclaim  &mm_round_bracket_right_exclaim
+&trans  &trans  &trans  &trans  &trans  &trans    &kp N1  &kp N2  &kp N3                    &kp PLUS      &kp SLASH                       &kp BACKSLASH
+                        &trans  &trans  &trans    &trans  &kp N0  &mt RIGHT_SHIFT KP_EQUAL
+            >;
+
+            label = "number";
+        };
+
+        remote_layer {
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+                        &trans  &trans  &trans    &trans  &trans  &trans
+            >;
+
+            label = "remote";
+        };
+
+        gaming {
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+                        &trans  &trans  &trans    &trans  &trans  &trans
+            >;
+
+            label = "gaming";
+        };
+
+        transition {
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &sl 0     &trans  &trans  &trans  &trans  &trans  &trans
+                        &trans  &trans  &trans    &trans  &trans  &trans
+            >;
+
+            label = "transition";
+        };
+
+        io {
+            bindings = <
+&trans  &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4    &out OUT_TOG  &trans  &trans  &trans  &trans  &bt BT_CLR
+&trans  &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4     &trans        &trans  &trans  &trans  &trans  &trans
+&trans  &trans         &trans         &trans         &trans         &trans           &trans        &trans  &trans  &trans  &trans  &trans
+                                      &trans         &trans         &trans           &trans        &trans  &trans
+            >;
+
+            label = "io";
+        };
+    };
+
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+
+        transition {
+            if-layers = <2>;
+            then-layer = <5>;
         };
     };
 };
