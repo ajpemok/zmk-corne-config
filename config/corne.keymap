@@ -143,6 +143,16 @@
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
+
+        custom_sticky_layer_ign_mod_5s: custom_sticky_layer_ign_mod_5s {
+            compatible = "zmk,behavior-sticky-key";
+            label = "CUSTOM_STICKY_LAYER_IGN_MOD_5S";
+            bindings = <&mo>;
+            #binding-cells = <1>;
+            release-after-ms = <5000>;
+            quick-release;
+            ignore-modifiers;
+        };
     };
 
     combos {
@@ -212,10 +222,10 @@
 
         adjust_layer {
             bindings = <
-&kp F1              &kp F2  &kp F3  &kp F4  &kp F5  &kp F6    &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
-&td_caps_word_lock  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans   &trans   &trans
-&trans              &trans  &trans  &trans  &trans  &sl 4     &trans  &trans  &trans  &trans   &trans   &trans
-                                    &trans  &trans  &trans    &trans  &trans  &trans
+&kp F1              &kp F2  &kp F3  &kp F4  &kp F5  &kp F6                               &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
+&td_caps_word_lock  &trans  &trans  &trans  &trans  &trans                               &trans  &trans  &trans  &trans   &trans   &trans
+&trans              &trans  &trans  &trans  &trans  &custom_sticky_layer_ign_mod_5s 4    &trans  &trans  &trans  &trans   &trans   &trans
+                                    &trans  &trans  &trans                               &trans  &trans  &trans
             >;
 
             label = "adjust";
