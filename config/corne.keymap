@@ -11,59 +11,38 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
 
-// ╔══════════════════════════════════════════╗
-// ║  Configuration Variables Reference       ║
-// ╠══════════════════════════════════════════╣
-// ║  defines the timing and toggle knobs     ║
-// ║  used across hold-taps and mod-morphs    ║
-// ╚══════════════════════════════════════════╝
-// ╔══════════════════════════════════════════╗
-// ║  Hold-Tap Configuration Guide            ║
-// ╠══════════════════════════════════════════╣
-// ║  detailed explanation of all timing      ║
-// ║  and resolution variables                ║
-// ╚══════════════════════════════════════════╝
-// ┌──────────────────────────────────────────┐
-// │  This section defines exactly how ZMK    │
-// │  resolves dual-function behaviours.      │
-// │                                          │
-// │  Timers (Milliseconds):                  │
-// │  - tapping-term-ms: The primary timer.   │
-// │    Releasing before this sends a tap.    │
-// │  - quick-tap-ms: The double-tap window.  │
-// │    Tapping again within this repeats     │
-// │    the tap instead of holding.           │
-// │  - require-prior-idle-ms: The typing     │
-// │    buffer to prevent accidental holds.   │
-// │                                          │
-// │  Flavours (Resolution Strategy):         │
-// │  - hold-preferred: The instant another   │
-// │    key is pressed, it becomes a hold.    │
-// │  - tap-preferred: Prioritises typing.    │
-// │    It stays a tap if released early.     │
-// │  - balanced: The home-row sweet spot.    │
-// │    It becomes a hold if another key is   │
-// │    pressed AND released while held.      │
-// │  - tap-unless-interrupted: Resolves as   │
-// │    a tap unless another key is pressed   │
-// │    and released during the hold window.  │
-// └──────────────────────────────────────────┘
+// ╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+// ║  Configuration Variables Reference                                                                                 ║
+// ╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣
+// ║  Global timing constants and logic gates for hold-taps, mod-morphs, and custom macros.                             ║
+// ╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+// ╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+// ║  Hold-Tap Configuration Guide                                                                                      ║
+// ╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣
+// ║  Sourced from: https://zmk.dev/docs/keymaps/behaviors/hold-tap                                                     ║
+// ╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+// ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+// │  INTERRUPT FLAVORS (Logic Decision Trees):                                                                         │
+// │  - hold-preferred: Triggers hold if tapping-term-ms expires OR another key is pressed. (ZMK Default for &mt)       │
+// │  - balanced: Triggers hold if term expires OR another key is pressed AND released. (Best for "Permissive" typing)  │
+// │  - tap-preferred: Triggers hold ONLY if term expires. Interrupts (other key presses) do not force a hold.          │
+// │  - tap-unless-interrupted: Inverts logic; triggers hold ONLY if interrupted before the term expires.               │
+// │                                                                                                                    │
+// │  ADVANCED TUNING PARAMETERS:                                                                                       │
+// │  - require-prior-idle-ms: If a key is struck within this window of a previous press, it forces a tap. Effectively  │
+// │    disables modifiers during active typing bursts to eliminate "accidental shift" misfires.                        │
+// │  - hold-trigger-key-positions: Defines "Global Positional Tap". If an interrupting key is NOT in this list, the    │
+// │    hold-tap resolves to a tap immediately. Crucial for keeping modifiers hand-isolated on split boards.            │
+// │  - hold-trigger-on-release: Delays the evaluation of the trigger position until the second key is released.        │
+// │    Allows for modifier stacking (e.g., holding two HRM keys on the same hand to combine them).                     │
+// │  - retro-tap: Performs the tap action on release if the term expired but no other key was pressed. Required if     │
+// │    you want a key to act as a modifier for mouse clicks but still type its letter when tapped alone.               │
+// │  - hold-while-undecided: Sends the hold behavior to the host immediately while waiting for the tap/hold decision.  │
+// └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 / {
     macros {
-        // › custom holdable meh: ctrl+alt+shift
-        meh_mod: meh_mod {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <0>;
-            tap-ms = <0>;
-            bindings
-                = <&macro_press &kp LCTRL &kp LALT &kp LSHFT>
-                , <&macro_pause_for_release>
-                , <&macro_release &kp LCTRL &kp LALT &kp LSHFT>
-                ;
-        };
-
         // › custom holdable hyper: ctrl+alt+shift+gui
         hyper_mod: hyper_mod {
             compatible = "zmk,behavior-macro";
@@ -76,17 +55,30 @@
                 , <&macro_release &kp LCTRL &kp LALT &kp LSHFT &kp LGUI>
                 ;
         };
+
+        // › custom holdable meh: ctrl+alt+shift
+        meh_mod: meh_mod {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <0>;
+            bindings
+                = <&macro_press &kp LCTRL &kp LALT &kp LSHFT>
+                , <&macro_pause_for_release>
+                , <&macro_release &kp LCTRL &kp LALT &kp LSHFT>
+                ;
+        };
     };
 
     behaviors {
         // ╔══════════════════════════════════════════╗
-        // ║  1. Core Typing (Home Row Mods)          ║
+        // ║  1. Home Row Mods                        ║
         // ╠══════════════════════════════════════════╣
         // ║  hand-blocked modifiers for the          ║
         // ║  primary alpha keys                      ║
         // ╚══════════════════════════════════════════╝
-        // › use case: primary alpha keys on the left hand, blocks same-hand activation
 
+        // › balanced, right-hand triggered; standard left HRM
         mt_home_row_mod_left: home_row_mod_left {
             compatible = "zmk,behavior-hold-tap";
             label = "HRM_LEFT";
@@ -101,8 +93,7 @@
             hold-trigger-on-release;
         };
 
-        // › use case: primary alpha keys on the right hand, faster for dominance
-
+        // › balanced, left-hand triggered; standard right HRM
         mt_home_row_mod_right: home_row_mod_right {
             compatible = "zmk,behavior-hold-tap";
             label = "HRM_RIGHT";
@@ -118,13 +109,12 @@
         };
 
         // ╔══════════════════════════════════════════╗
-        // ║  2. Layer Taps (CLT)                     ║
+        // ║  2. Layer (Hold) Taps (CLT)              ║
         // ╠══════════════════════════════════════════╣
         // ║  variants for momentary layer shifts     ║
-        // ║  using <&mo>, <&kp> bindings             ║
         // ╚══════════════════════════════════════════╝
-        // › use case: fast typing standard, prioritises clean typing
 
+        // › tap-preferred: taps win ties; good for thumb keys where taps dominate and holds are deliberate
         clt_tap_pref: layer_tap_pref {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_TAP_PREF";
@@ -136,8 +126,7 @@
             quick-tap-ms = <125>;
         };
 
-        // › use case: standard balanced thumb layer toggle for smooth rolls
-
+        // › balanced: resolves on interrupt release; good for thumb keys where rolls into layer keys are common
         clt_balanced: layer_tap_balanced {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_BALANCED";
@@ -149,30 +138,71 @@
             quick-tap-ms = <150>;
         };
 
-        // › use case: highly deliberate layer shift for settings or dangerous macros
-
-        clt_deliberate: layer_tap_delib {
+        // › bal + hwu: layer activates immediately on any key press; best when any key should resolve the hold instantly
+        clt_bal_hwu: layer_tap_bal_hwu {
             compatible = "zmk,behavior-hold-tap";
-            label = "CLT_DELIBERATE";
+            label = "CLT_BAL_HWU";
+            bindings = <&mo>, <&kp>;
+
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <150>;
+            hold-while-undecided;
+        };
+
+        // › bal + hwu + linger: layer fires instantly and stays active until tap key releases too; best when any key should trigger linger behaviour
+        clt_bal_hwu_linger: layer_tap_bal_hwu_linger {
+            compatible = "zmk,behavior-hold-tap";
+            label = "CLT_BAL_HWU_LGR";
+            bindings = <&mo>, <&kp>;
+
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <150>;
+            hold-while-undecided;
+            hold-while-undecided-linger;
+        };
+
+        // › tap-preferred + retro: fires tap on timeout with no interrupt; best when any key should allow retro tap fallback
+        clt_retro: layer_tap_retro {
+            compatible = "zmk,behavior-hold-tap";
+            label = "CLT_RETRO";
             bindings = <&mo>, <&kp>;
 
             #binding-cells = <2>;
             flavor = "tap-preferred";
-            tapping-term-ms = <300>;
+            tapping-term-ms = <200>;
             quick-tap-ms = <150>;
+            retro-tap;
+        };
+
+        // › bal + hwu + retro: layer fires straight away but sends tap on release if nothing interrupted; best when any key should trigger both instant hold and retro tap fallback
+        clt_bal_hwu_retro: layer_tap_bal_hwu_retro {
+            compatible = "zmk,behavior-hold-tap";
+            label = "CLT_BAL_HWU_RTO";
+            bindings = <&mo>, <&kp>;
+
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <150>;
+            hold-while-undecided;
+            retro-tap;
         };
 
         // ╔══════════════════════════════════════════╗
-        // ║  3. Mod Taps (CMT)                       ║
+        // ║  3. Hold Taps (CHT)                      ║
         // ╠══════════════════════════════════════════╣
         // ║  variants for custom modifiers           ║
         // ║  using <&kp>, <&kp> bindings             ║
         // ╚══════════════════════════════════════════╝
-        // › use case: standard thumb modifier requiring stability during fast rolls
 
-        cmt_balanced: mod_tap_balanced {
+        // › balanced: solid general-purpose modifier; resolves hold when interrupt is pressed and released within tapping-term
+        cht_balanced: hold_tap_balanced {
             compatible = "zmk,behavior-hold-tap";
-            label = "CMT_BALANCED";
+            label = "CHT_BALANCED";
             bindings = <&kp>, <&kp>;
 
             #binding-cells = <2>;
@@ -182,11 +212,10 @@
             flavor = "balanced";
         };
 
-        // › use case: prevent accidental mods during overlapping rolls
-
-        cmt_tui: mod_tap_tui {
+        // › tap-unless-interrupted: hold only fires if another key cuts in before tapping-term; best for keys that should almost always tap
+        cht_tui: hold_tap_tui {
             compatible = "zmk,behavior-hold-tap";
-            label = "CMT_TUI";
+            label = "CHT_TUI";
             bindings = <&kp>, <&kp>;
 
             #binding-cells = <2>;
@@ -196,28 +225,68 @@
             flavor = "tap-unless-interrupted";
         };
 
-        // › use case: ideal for keys you might accidentally linger on but expect a tap
-
-        cmt_retro: mod_tap_retro {
+        // › tap-preferred + retro: fires tap on release if nothing interrupted; good for punctuation or symbol keys that rarely need their hold mod
+        cht_retro: hold_tap_retro {
             compatible = "zmk,behavior-hold-tap";
-            label = "CMT_RETRO";
+            label = "CHT_RETRO";
             bindings = <&kp>, <&kp>;
 
             #binding-cells = <2>;
             tapping-term-ms = <150>;
-            retro-tap;
             quick-tap-ms = <125>;
+            retro-tap;
             flavor = "tap-preferred";
+        };
+
+        // › bal + hwu: modifier activates immediately on any key press; best when any key should resolve the hold instantly
+        cht_bal_hwu: hold_tap_bal_hwu {
+            compatible = "zmk,behavior-hold-tap";
+            label = "CHT_BAL_HWU";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <150>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            hold-while-undecided;
+        };
+
+        // › bal + hwu + linger: modifier fires instantly and stays held until tap key lifts; best when any key should trigger linger behaviour
+        cht_bal_hwu_linger: hold_tap_bal_hwu_linger {
+            compatible = "zmk,behavior-hold-tap";
+            label = "CHT_BAL_HWU_LGR";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <150>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            hold-while-undecided;
+            hold-while-undecided-linger;
+        };
+
+        // › bal + hwu + retro: modifier fires straight away but sends tap on release if nothing interrupted; best when any key should trigger both instant hold and retro tap fallback
+        cht_bal_hwu_retro: hold_tap_bal_hwu_retro {
+            compatible = "zmk,behavior-hold-tap";
+            label = "CHT_BAL_HWU_RTO";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <150>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            hold-while-undecided;
+            retro-tap;
         };
 
         // ╔══════════════════════════════════════════╗
         // ║  4. Tap-Dances                           ║
-        // ╠══════════════════════════════════════════╣
-        // ║  multi-tap triggers for complex          ║
-        // ║  modifiers and locks                     ║
         // ╚══════════════════════════════════════════╝
-        // › use case: single tap sends Hyper, double tap sends Meh
 
+        // › single: hyper, double: meh
         td_hyper_meh: dance_hyper_meh {
             compatible = "zmk,behavior-tap-dance";
             label = "TD_HYPER_MEH";
@@ -227,8 +296,7 @@
             tapping-term-ms = <175>;
         };
 
-        // › use case: single tap sends Meh, double tap sends Hyper
-
+        // › single: meh, double: hyper
         td_meh_hyper: dance_meh_hyper {
             compatible = "zmk,behavior-tap-dance";
             label = "TD_MEH_HYPER";
@@ -238,8 +306,7 @@
             tapping-term-ms = <175>;
         };
 
-        // › use case: single tap toggles Caps Word, double tap locks Caps Lock
-
+        // › single: caps word, double: caps lock
         td_caps_word: dance_caps_word {
             compatible = "zmk,behavior-tap-dance";
             label = "TD_CAPS_WORD";
@@ -250,12 +317,9 @@
 
         // ╔══════════════════════════════════════════╗
         // ║  5. Mod-Morphs                           ║
-        // ╠══════════════════════════════════════════╣
-        // ║  context-aware keys for symbols and      ║
-        // ║  navigation utility                      ║
         // ╚══════════════════════════════════════════╝
-        // › use case: tap for Escape, Shift+tap for Grave/Tilde
 
+        // › default: esc, shifted: grave
         mm_esc_grave: morph_esc_grave {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_ESC_GRAVE";
@@ -265,8 +329,7 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        // › use case: tap for Left Parenthesis, Shift+tap for Exclamation mark
-
+        // › default: (, shifted: !
         mm_l_paren: morph_l_paren {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_L_PAREN";
@@ -276,8 +339,7 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        // › use case: tap for Right Parenthesis, Shift+tap for Pipe
-
+        // › default: ), shifted: |
         mm_r_paren: morph_r_paren {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_R_PAREN";
@@ -337,7 +399,7 @@
 &kp GRAVE  &trans  &trans  &trans  &trans  &trans    &kp N7  &kp N8  &kp N9                        &kp ASTRK  &kp LBKT     &kp RBKT
 &trans     &trans  &trans  &trans  &trans  &trans    &kp N4  &kp N5  &kp N6                        &kp MINUS  &mm_l_paren  &mm_r_paren
 &trans     &trans  &trans  &trans  &trans  &trans    &kp N1  &kp N2  &kp N3                        &kp PLUS   &kp FSLH     &kp BSLH
-                           &trans  &trans  &trans    &trans  &kp N0  &cmt_balanced RSHFT KP_EQUAL
+                           &trans  &trans  &trans    &trans  &kp N0  &cht_balanced RSHFT KP_EQUAL
             >;
         };
 
