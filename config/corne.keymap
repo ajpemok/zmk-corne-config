@@ -382,10 +382,10 @@
         // ║  tap param is unused; pass 0 in keymap   ║
         // ╚══════════════════════════════════════════╝
 
-        // › hold: layer, tap: bspc / shifted: del
-        clt_bal_bspc_del: layer_tap_bal_bspc_del {
+        // › hold: layer, tap: mod-morphed -> bspc / shifted: del
+        clt_mm_bal_bspc_del: layer_tap_morph_bal_bspc_del {
             compatible = "zmk,behavior-hold-tap";
-            label = "CLT_BAL_BSPC_DEL";
+            label = "CLT_MM_BAL_BSPC_DEL";
             bindings = <&mo>, <&mm_bspc_del>;
 
             #binding-cells = <2>;
@@ -416,22 +416,20 @@
         mac {
             label = "mac";
             bindings = <
-&mm_esc_grave       &kp Q                             &kp W                             &kp E                          &kp R                          &kp T                   &kp Y                           &kp U                                 &kp I                           &kp O                               &kp P                                       &kp MINUS
-&kp TAB             &mt_home_row_mod_left LEFT_GUI A  &mt_home_row_mod_left LEFT_ALT S  &mt_home_row_mod_left LCTRL D  &mt_home_row_mod_left LSHFT F  &kp G                   &kp H                           &mt_home_row_mod_right RIGHT_SHIFT J  &mt_home_row_mod_right RCTRL K  &mt_home_row_mod_right RIGHT_ALT L  &mt_home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
-&clt_bal_hwu 4 F24  &kp Z                             &kp X                             &kp C                          &kp V                          &kp B                   &kp N                           &kp M                                 &kp COMMA                       &kp DOT                             &kp SLASH                                   &mm_asterisk_tilde
-                                                                                        &td_hyper_meh                  &clt_balanced 3 SPACE          &clt_bal_hwu 2 ENTER    &cht_bal_hwu RIGHT_SHIFT ENTER  &clt_balanced 2 SPACE                 &clt_bal_bspc_del 3 0
-
+&mm_esc_grave            &kp Q                             &kp W                             &kp E                          &kp R                 &kp T    &kp Y                          &kp U                                 &kp I                           &kp O                               &kp P                                       &kp MINUS
+&kp TAB                  &mt_home_row_mod_left LEFT_GUI A  &mt_home_row_mod_left LEFT_ALT S  &mt_home_row_mod_left LCTRL D  &mt_home_row_mod_left LSHFT F  &kp G    &kp H                          &mt_home_row_mod_right RIGHT_SHIFT J  &mt_home_row_mod_right RCTRL K  &mt_home_row_mod_right RIGHT_ALT L  &mt_home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
+&clt_mm_bal_bspc_del 4 0 &kp Z                             &kp X                             &kp C                          &kp V                 &kp B    &kp N                          &kp M                                 &kp COMMA                       &kp DOT                             &kp SLASH                                   &mm_asterisk_tilde
+                                                                                             &td_hyper_meh                  &clt_balanced 3 SPACE &clt_bal_hwu 2 ENTER    &cht_bal_hwu RIGHT_SHIFT ENTER  &clt_balanced 2 SPACE                 &clt_mm_bal_bspc_del 3 0
             >;
         };
 
         win {
             label = "win";
             bindings = <
-&mm_esc_grave       &kp Q                                 &kp W                             &kp E                             &kp R                          &kp T                   &kp Y                           &kp U                                 &kp I                           &kp O                               &kp P                                       &kp MINUS
-&kp TAB             &mt_home_row_mod_left LEFT_CONTROL A  &mt_home_row_mod_left LEFT_ALT S  &mt_home_row_mod_left LEFT_GUI D  &mt_home_row_mod_left LSHFT F  &kp G                   &kp H                           &mt_home_row_mod_right RIGHT_SHIFT J  &mt_home_row_mod_right RCTRL K  &mt_home_row_mod_right RIGHT_ALT L  &mt_home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
-&clt_bal_hwu 4 F24  &kp Z                                 &kp X                             &kp C                             &kp V                          &kp B                   &kp N                           &kp M                                 &kp COMMA                       &kp DOT                             &kp SLASH                                   &mm_asterisk_tilde
-                                                                                            &td_hyper_meh                     &clt_balanced 3 SPACE          &clt_bal_hwu 2 ENTER    &cht_bal_hwu RIGHT_SHIFT ENTER  &clt_balanced 2 SPACE                 &clt_bal_bspc_del 3 0
-
+&mm_esc_grave            &kp Q                                 &kp W                             &kp E                             &kp R                 &kp T    &kp Y                          &kp U                                 &kp I                           &kp O                               &kp P                                       &kp MINUS
+&kp TAB                  &mt_home_row_mod_left LEFT_CONTROL A  &mt_home_row_mod_left LEFT_ALT S  &mt_home_row_mod_left LEFT_GUI D  &mt_home_row_mod_left LSHFT F  &kp G    &kp H                          &mt_home_row_mod_right RIGHT_SHIFT J  &mt_home_row_mod_right RCTRL K  &mt_home_row_mod_right RIGHT_ALT L  &mt_home_row_mod_right RIGHT_GUI SEMICOLON  &kp SQT
+&clt_mm_bal_bspc_del 4 0 &kp Z                                 &kp X                             &kp C                             &kp V                 &kp B    &kp N                          &kp M                                 &kp COMMA                       &kp DOT                             &kp SLASH                                   &mm_asterisk_tilde
+                                                                                                 &td_hyper_meh                     &clt_balanced 3 SPACE &clt_bal_hwu 2 ENTER    &cht_bal_hwu RIGHT_SHIFT ENTER  &clt_balanced 2 SPACE                 &clt_mm_bal_bspc_del 3 0
             >;
         };
 
