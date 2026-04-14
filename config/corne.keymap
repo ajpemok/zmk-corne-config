@@ -413,6 +413,31 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <150>;
         };
+
+        // ╔══════════════════════════════════════════╗
+        // ║  7. Custom Sticky Keys                   ║
+        // ╠══════════════════════════════════════════╣
+        // ║  default release-after-ms is: 1000ms     ║
+        // ╚══════════════════════════════════════════╝
+
+        // › defaullt sticky key with custom 5000ms timeout
+        csl_5000: custom_sticky_layer_ignore_mods {
+            compatible = "zmk,behavior-sticky-key";
+            label = "STICKY_LAYER_5000";
+            #binding-cells = <1>;
+            bindings = <&mo>;
+            release-after-ms = <5000>;
+        };
+
+        // › ignore-modifiers variant to be more forgiving for chording layer keys through modifiers
+        csl_5000_ignore_mods: custom_sticky_layer_ignore_mods {
+            compatible = "zmk,behavior-sticky-key";
+            label = "STICKY_LAYER_5000";
+            #binding-cells = <1>;
+            bindings = <&mo>;
+            release-after-ms = <5000>;
+            ignore-modifiers;
+        };
     };
 
     // ╔══════════════════════════════════════════╗
