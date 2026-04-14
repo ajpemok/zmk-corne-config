@@ -421,7 +421,7 @@
         // ╚══════════════════════════════════════════╝
 
         // › defaullt sticky key with custom 5000ms timeout
-        csl_5000: custom_sticky_layer {
+        csl_5000: sticky_layer_5000 {
             compatible = "zmk,behavior-sticky-key";
             label = "CSL_5000";
             #binding-cells = <1>;
@@ -430,7 +430,7 @@
         };
 
         // › ignore-modifiers variant to be more forgiving for chording layer keys through modifiers
-        csl_5000_ignore_mods: custom_sticky_layer_ignore_mods {
+        csl_5000_ignore_mods: sticky_layer_5000_ignore_mods {
             compatible = "zmk,behavior-sticky-key";
             label = "CSL_5000_IGNORE_MODS";
             #binding-cells = <1>;
@@ -438,6 +438,18 @@
             release-after-ms = <5000>;
             ignore-modifiers;
         };
+
+        // › ignore-modifiers + quick-release variant for also returming to the base layer immediately
+        csl_5000_im_qr: sticky_layer_5000_ignore_mods_quick_rel {
+            compatible = "zmk,behavior-sticky-key";
+            label = "CSL_5000_IGNORE_MODS_QUICK_REL";
+            #binding-cells = <1>;
+            bindings = <&mo>;
+            release-after-ms = <5000>;
+            ignore-modifiers;
+            quick-release;
+        };
+
     };
 
     // ╔══════════════════════════════════════════╗
