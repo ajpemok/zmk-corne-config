@@ -41,13 +41,12 @@
 // └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 / {
-    // ╔══════════════════════════════════════════╗
-    // ║  Macros                                  ║
-    // ╚══════════════════════════════════════════╝
-
     macros {
-        // › custom holdable hyper: ctrl+alt+shift+gui
+        // ╔══════════════════════════════════════════╗
+        // ║  Macros                                  ║
+        // ╚══════════════════════════════════════════╝
 
+        // › custom holdable hyper: ctrl+alt+shift+gui
         hyper_mod: hyper_mod {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -62,7 +61,6 @@
         };
 
         // › custom holdable meh: ctrl+alt+shift
-
         meh_mod: meh_mod {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -85,8 +83,8 @@
         // ║  primary alpha keys                      ║
         // ║  using <&kp>, <&kp> bindings             ║
         // ╚══════════════════════════════════════════╝
-        // › balanced, right-hand triggered; standard left HRM
 
+        // › balanced, right-hand triggered; standard left HRM
         mt_home_row_mod_left: home_row_mod_left {
             compatible = "zmk,behavior-hold-tap";
             label = "HRM_LEFT";
@@ -102,7 +100,6 @@
         };
 
         // › balanced, left-hand triggered; standard right HRM
-
         mt_home_row_mod_right: home_row_mod_right {
             compatible = "zmk,behavior-hold-tap";
             label = "HRM_RIGHT";
@@ -123,8 +120,8 @@
         // ║  variants for momentary layer shifts     ║
         // ║  using <&mo>, <&kp> bindings             ║
         // ╚══════════════════════════════════════════╝
-        // › tap-preferred: taps win ties; good for thumb keys where taps dominate and holds are deliberate
 
+        // › tap-preferred: taps win ties; good for thumb keys where taps dominate and holds are deliberate
         clt_tap_pref: layer_tap_pref {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_TAP_PREF";
@@ -137,7 +134,6 @@
         };
 
         // › balanced: resolves on interrupt release; good for thumb keys where rolls into layer keys are common
-
         clt_balanced: layer_tap_balanced {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_BALANCED";
@@ -150,7 +146,6 @@
         };
 
         // › bal + hwu: layer activates immediately on any key press; best when any key should resolve the hold instantly
-
         clt_bal_hwu: layer_tap_bal_hwu {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_BAL_HWU";
@@ -164,7 +159,6 @@
         };
 
         // › bal + hwu + linger: layer fires instantly and stays active until tap key releases too; best when any key should trigger linger behaviour
-
         clt_bal_hwu_linger: layer_tap_bal_hwu_linger {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_BAL_HWU_LGR";
@@ -179,7 +173,6 @@
         };
 
         // › tap-preferred + retro: fires tap on timeout with no interrupt; best when any key should allow retro tap fallback
-
         clt_retro: layer_tap_retro {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_RETRO";
@@ -193,7 +186,6 @@
         };
 
         // › bal + hwu + retro: layer fires straight away but sends tap on release if nothing interrupted; best when any key should trigger both instant hold and retro tap fallback
-
         clt_bal_hwu_retro: layer_tap_bal_hwu_retro {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_BAL_HWU_RTO";
@@ -213,8 +205,8 @@
         // ║  variants for custom modifiers           ║
         // ║  using <&kp>, <&kp> bindings             ║
         // ╚══════════════════════════════════════════╝
-        // › balanced: solid general-purpose modifier; resolves hold when interrupt is pressed and released within tapping-term
 
+        // › balanced: solid general-purpose modifier; resolves hold when interrupt is pressed and released within tapping-term
         cht_balanced: hold_tap_balanced {
             compatible = "zmk,behavior-hold-tap";
             label = "CHT_BALANCED";
@@ -228,7 +220,6 @@
         };
 
         // › tap-unless-interrupted: hold only fires if another key cuts in before tapping-term; best for keys that should almost always tap
-
         cht_tui: hold_tap_tui {
             compatible = "zmk,behavior-hold-tap";
             label = "CHT_TUI";
@@ -242,7 +233,6 @@
         };
 
         // › tap-preferred + retro: fires tap on release if nothing interrupted; good for punctuation or symbol keys that rarely need their hold mod
-
         cht_retro: hold_tap_retro {
             compatible = "zmk,behavior-hold-tap";
             label = "CHT_RETRO";
@@ -256,7 +246,6 @@
         };
 
         // › bal + hwu: modifier activates immediately on any key press; best when any key should resolve the hold instantly
-
         cht_bal_hwu: hold_tap_bal_hwu {
             compatible = "zmk,behavior-hold-tap";
             label = "CHT_BAL_HWU";
@@ -271,7 +260,6 @@
         };
 
         // › bal + hwu + linger: modifier fires instantly and stays held until tap key lifts; best when any key should trigger linger behaviour
-
         cht_bal_hwu_linger: hold_tap_bal_hwu_linger {
             compatible = "zmk,behavior-hold-tap";
             label = "CHT_BAL_HWU_LGR";
@@ -287,7 +275,6 @@
         };
 
         // › bal + hwu + retro: modifier fires straight away but sends tap on release if nothing interrupted; best when any key should trigger both instant hold and retro tap fallback
-
         cht_bal_hwu_retro: hold_tap_bal_hwu_retro {
             compatible = "zmk,behavior-hold-tap";
             label = "CHT_BAL_HWU_RTO";
@@ -305,8 +292,8 @@
         // ╔══════════════════════════════════════════╗
         // ║  4. Tap-Dances                           ║
         // ╚══════════════════════════════════════════╝
-        // › single: hyper, double: meh
 
+        // › single: hyper, double: meh
         td_hyper_meh: dance_hyper_meh {
             compatible = "zmk,behavior-tap-dance";
             label = "TD_HYPER_MEH";
@@ -317,7 +304,6 @@
         };
 
         // › single: meh, double: hyper
-
         td_meh_hyper: dance_meh_hyper {
             compatible = "zmk,behavior-tap-dance";
             label = "TD_MEH_HYPER";
@@ -328,7 +314,6 @@
         };
 
         // › single: caps word, double: caps lock
-
         td_caps_word: dance_caps_word {
             compatible = "zmk,behavior-tap-dance";
             label = "TD_CAPS_WORD";
@@ -340,8 +325,8 @@
         // ╔══════════════════════════════════════════╗
         // ║  5. Mod-Morphs                           ║
         // ╚══════════════════════════════════════════╝
-        // › default: backspace, shifted: delete
 
+        // › default: backspace, shifted: delete
         mm_bspc_del: morph_bspc_del {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_BSPC_DEL";
@@ -352,7 +337,6 @@
         };
 
         // › default: esc, shifted: grave
-
         mm_esc_grave: morph_esc_grave {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_ESC_GRAVE";
@@ -363,7 +347,6 @@
         };
 
         // › default: *, shifted: ~
-
         mm_asterisk_tilde: morph_asterisk_tilde {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_ASTERISK_TILDE";
@@ -374,7 +357,6 @@
         };
 
         // › default: (, shifted: !
-
         mm_l_parenth_exlclaim: morph_l_parenth_exclaim {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_L_PARENTH_EXCLAIM";
@@ -385,7 +367,6 @@
         };
 
         // › default: ), shifted: |
-
         mm_r_parenth_pipe: morph_r_parenth_pipe {
             compatible = "zmk,behavior-mod-morph";
             label = "MM_R_PARENTH_PIPE";
@@ -401,8 +382,8 @@
         // ║  hold-tap wrappers with mod-morph taps   ║
         // ║  tap param is unused; pass 0 in keymap   ║
         // ╚══════════════════════════════════════════╝
-        // › hold: layer, tap: mod-morphed -> bspc / shifted: del
 
+        // › hold: layer, tap: mod-morphed -> bspc / shifted: del
         clt_mm_bal_bspc_del: layer_tap_morph_bal_bspc_del {
             compatible = "zmk,behavior-hold-tap";
             label = "CLT_MM_BAL_BSPC_DEL";
@@ -452,24 +433,59 @@
 
     };
 
-    // ╔══════════════════════════════════════════╗
-    // ║  Combos                                  ║
-    // ╚══════════════════════════════════════════╝
-
     combos {
+        // ╔══════════════════════════════════════════╗
+        // ║  Combos                                  ║
+        // ╠══════════════════════════════════════════╣
+        // ║  simultaneous key triggers for           ║
+        // ║  shortcuts and utility actions           ║
+        // ╚══════════════════════════════════════════╝
+
         compatible = "zmk,combos";
 
-        // › jk: backspace on mac and number layers
-
+        // › use case: J+K simultaneously sends Backspace on all primary layers
         combo_jk_backspace {
+            timeout-ms = <40>;
             bindings = <&kp BACKSPACE>;
             key-positions = <19 20>;
-            layers = <0 2>;
+            layers = <0 1 2>;
+        };
+
+        // › use case: M+, simultaneously sends Delete on all primary layers
+        combo_m_comma_delete {
+            timeout-ms = <40>;
+            bindings = <&kp DELETE>;
+            key-positions = <31 32>;
+            layers = <0 1 2>;
+        };
+    };
+
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+
+        // ╔══════════════════════════════════════════╗
+        // ║  Conditional Layers                      ║
+        // ╠══════════════════════════════════════════╣
+        // ║  layers that activate when multiple      ║
+        // ║  other layers are held simultaneously    ║
+        // ╚══════════════════════════════════════════╝
+
+        // › use case: number + movement simultaneously activates transition
+        transition_layer {
+            if-layers = <3 2>;
+            then-layer = <5>;
         };
     };
 
     keymap {
         compatible = "zmk,keymap";
+
+        // ╔══════════════════════════════════════════╗
+        // ║  Keymap                                  ║
+        // ╠══════════════════════════════════════════╣
+        // ║  layer definitions mapping physical      ║
+        // ║  keys to behaviours and key codes        ║
+        // ╚══════════════════════════════════════════╝
 
         mac {
             label = "mac";
@@ -539,17 +555,6 @@
 &trans  &trans         &trans         &trans         &trans         &trans           &tog 1        &trans  &trans  &trans  &trans  &trans
                                       &trans         &trans         &trans           &trans        &trans  &trans
             >;
-        };
-    };
-
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
-
-        // › number + movement = transition
-
-        transition_layer {
-            if-layers = <3 2>;
-            then-layer = <5>;
         };
     };
 };
