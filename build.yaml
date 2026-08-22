@@ -21,6 +21,9 @@
 include:
   - board: mikoto@7.2.0//zmk
     shield: corne_left nice_view_adapter nice_view_gem
+    snippet: studio-rpc-usb-uart
+    # Five host profiles plus the BLE link to the right half.
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_BT_MAX_CONN=6 -DCONFIG_BT_MAX_PAIRED=6
     artifact-name: corne_left-mikoto-zmk
   - board: mikoto@7.2.0//zmk
     shield: corne_right nice_view_adapter nice_view_gem
